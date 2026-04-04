@@ -10,6 +10,7 @@ globalvar CreatorName 4
 globalvar MapCode 5
 globalvar ColorConfig 6
 globalvar MapVectorArray 7 # for fence breaker
+globalvar RingSize 8
 
 # Player variables
 

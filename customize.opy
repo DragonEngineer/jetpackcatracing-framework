@@ -2,8 +2,13 @@
 
 rule "Customize Credits and Colors Here":
     wait(LoadOrder.customize)
+
+    # credits
     CreatorName = "creator name here"
     MapCode = "map code here"
+
+    # ring size
+    RingSize = 2.5
 
     #credit hud name   -   作者HUD
     ColorConfig[Customize.credit_name] = Color.VIOLET

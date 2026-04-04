@@ -26,7 +26,7 @@ rule "HUD Setup":
     
     hudSubtext(localPlayer, f"Time: {localPlayer.Timer}", HudPosition.TOP, HO.timer, ColorConfig[Customize.player_time] , HudReeval.VISIBILITY_AND_STRING)
 
-rule "Checkpoint Effects Setup":
-    wait(LoadOrder.hudsGlobal)
-    createEffect(localPlayer.filter(lambda _: localPlayer.Last_checkpoint != 0), Effect.GOOD_AURA, ColorConfig[Customize.goal_checkpoint], localPlayer.Last_checkpoint, 2.5, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
-    createEffect(localPlayer.filter(lambda _: localPlayer.Goal_checkpoint != 0), Effect.GOOD_AURA, ColorConfig[Customize.after_next], localPlayer.Goal_checkpoint, 2.5, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+rule "Effects Setup":
+    wait(LoadOrder.effects)
+    createEffect(localPlayer.filter(lambda _: localPlayer.Last_checkpoint != 0), Effect.GOOD_AURA, ColorConfig[Customize.goal_checkpoint], localPlayer.Last_checkpoint, RingSize-0.15, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+    createEffect(localPlayer.filter(lambda _: localPlayer.Goal_checkpoint != 0), Effect.GOOD_AURA, ColorConfig[Customize.after_next], localPlayer.Goal_checkpoint, RingSize-0.15, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)

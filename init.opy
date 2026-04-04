@@ -5,7 +5,7 @@ rule "Init Global":
     # disableInspector()
     wait(1)
     setMatchTime(900)
-    setObjectiveDescription(getAllPlayers(), "{0} {1}".format(heroIcon(Hero.JETPACK_CAT), "Jetpack Cat Racing!"), HudReeval.VISIBILITY_AND_STRING)
+    #setObjectiveDescription(getAllPlayers(), "{0} {1}".format(heroIcon(Hero.JETPACK_CAT), "Jetpack Cat Racing!"), HudReeval.VISIBILITY_AND_STRING)
     
     # Checkpoints = []
     # Lobby_High = []

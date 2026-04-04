@@ -27,13 +27,13 @@ def Reset():
 
 rule "Start":
     @Event eachPlayer
-    @Condition eventPlayer.hasSpawned() == true
+    @Condition eventPlayer.hasSpawned() 
     Reset()   
 
 
 rule "Reset":
     @Event eachPlayer
-    @Condition eventPlayer.isHoldingButton(Button.RELOAD) == true
+    @Condition eventPlayer.isHoldingButton(Button.RELOAD) 
     
     wait(0.5, Wait.ABORT_WHEN_FALSE)
     Reset()
@@ -41,7 +41,7 @@ rule "Reset":
 
 rule "Arrive at Checkpoint":
     @Event eachPlayer
-    @Condition distance(eventPlayer.Last_checkpoint, eventPlayer.getEyePosition()) <= 2.65
+    @Condition distance(eventPlayer.Last_checkpoint, eventPlayer.getEyePosition()) <= RingSize #2.65
     @Condition eventPlayer.isAlive()
     # TODO: Separate starting the level vs arriving at a checkpoint IN the level?
     playEffect(eventPlayer, DynamicEffect.BUFF_EXPLOSION_SOUND, Color.WHITE, eventPlayer.getEyePosition(), 100)
