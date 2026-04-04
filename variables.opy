@@ -44,3 +44,13 @@ enum LoadOrder:
     #hudsPlayer  = 0.016 * 56,
     #hudsEditor  = 0.016 * 64,
     effects     = 0.016 * 256,
+
+enum HO: # hud ordering
+    # hud middle
+    timer,
+    # hud left
+    credit,
+    disc,
+
+    # hud right
+    controls,

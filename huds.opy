@@ -15,16 +15,16 @@ rule "HUD Setup":
         heroIcon(Hero.JETPACK_CAT), 
         f"Made By: {CreatorName}{LeftAlign100}",
         f"Map Code: {MapCode}{LeftAlign100}",
-        HudPosition.LEFT, -200, Color.SKY_BLUE, ColorConfig[Customize.credit_code], ColorConfig[Customize.credit_name], 
+        HudPosition.LEFT, HO.credit, Color.SKY_BLUE, ColorConfig[Customize.credit_code], ColorConfig[Customize.credit_name], 
         HudReeval.VISIBILITY, SpecVisibility.DEFAULT
     )
     hudSubheader(true[0],
         f"Discord: dsc.gg/jetpack{LeftAlign100}",
-        HudPosition.LEFT, -199, ColorConfig[Customize.dsc], HudReeval.VISIBILITY, SpecVisibility.DEFAULT)
+        HudPosition.LEFT, HO.disc, ColorConfig[Customize.dsc], HudReeval.VISIBILITY, SpecVisibility.DEFAULT)
 
-    hudSubtext(getAllPlayers(), f"Hold {inputBindingString(Button.RELOAD)} to restart", HudPosition.RIGHT, 0, ColorConfig[Customize.control_hud_1] , HudReeval.VISIBILITY_AND_STRING)
+    hudSubtext(getAllPlayers(), f"Hold {inputBindingString(Button.RELOAD)} to restart", HudPosition.RIGHT, HO.controls, ColorConfig[Customize.control_hud_1] , HudReeval.VISIBILITY_AND_STRING)
     
-    hudSubtext(localPlayer, f"Time: {localPlayer.Timer}", HudPosition.TOP, 1, ColorConfig[Customize.player_time] , HudReeval.VISIBILITY_AND_STRING)
+    hudSubtext(localPlayer, f"Time: {localPlayer.Timer}", HudPosition.TOP, HO.timer, ColorConfig[Customize.player_time] , HudReeval.VISIBILITY_AND_STRING)
 
 rule "Checkpoint Effects Setup":
     wait(LoadOrder.hudsGlobal)
