@@ -9,34 +9,53 @@ rule "anti crash":
     waitUntil(getServerLoad() < 230, Math.INFINITY)
     setSlowMotion(100)
 
-def Reset():
-    eventPlayer.teleport(StartVector)
-    eventPlayer.startForcingPosition(StartVector)
+
+def ResetSpeed():
+    eventPlayer.setMoveSpeed(100)
+    eventPlayer.SpeedMultiplier = 100
+
+def GoToResetPoint():
+    eventPlayer.teleport(eventPlayer.LastCheckpoint)
+    eventPlayer.startForcingPosition(eventPlayer.LastCheckpoint)
     wait()
     eventPlayer.stopForcingPosition()
-    eventPlayer.setFacing(directionTowards(eventPlayer.getEyePosition(), Checkpoints[0]), Relativity.TO_WORLD)
+    eventPlayer.setFacing(directionTowards(eventPlayer.getEyePosition(),  eventPlayer.GoalCheckpoint), Relativity.TO_WORLD)
+
+rule "Reset - single cp":
+    @Event eachPlayer
+    @Condition eventPlayer.isHoldingButton(Button.RELOAD)     
+    waitUntil(not eventPlayer.isHoldingButton(Button.RELOAD), 0.3)
+    if eventPlayer.isHoldingButton(Button.RELOAD):
+        return
+
+    GoToResetPoint()
+    ResetSpeed()
+
+def FullReset():
+    eventPlayer.LastCheckpoint = StartVector
     stopChasingVariable(eventPlayer.Timer)
-    eventPlayer.ReturnCheckpointIndex = 0
     eventPlayer.GoalCheckpoint = Checkpoints[0]
     eventPlayer.AfterNextCheckpoint = Checkpoints[1]
+    eventPlayer.ReturnCheckpointIndex = 0
     eventPlayer.Timer = 0
     eventPlayer.High_Score = []
     eventPlayer.IsRacing = false
-    eventPlayer.setMoveSpeed(100)
-    eventPlayer.SpeedMultiplier = 100
+    GoToResetPoint()
+    ResetSpeed()
 
 rule "Start":
     @Event eachPlayer
     @Condition eventPlayer.hasSpawned() 
-    Reset()   
+    @Condition getTotalTimeElapsed() > 1
+    FullReset()
 
 
-rule "Reset":
+rule "Reset - full":
     @Event eachPlayer
     @Condition eventPlayer.isHoldingButton(Button.RELOAD) 
     
     wait(0.5, Wait.ABORT_WHEN_FALSE)
-    Reset()
+    FullReset()
 
 
 rule "Arrive at Checkpoint":
@@ -53,6 +72,7 @@ rule "Arrive at Checkpoint":
     eventPlayer.SpeedMultiplier += 3
 
     eventPlayer.ReturnCheckpointIndex += 1
+    eventPlayer.LastCheckpoint = eventPlayer.GoalCheckpoint 
     eventPlayer.GoalCheckpoint = eventPlayer.AfterNextCheckpoint
     eventPlayer.AfterNextCheckpoint = Checkpoints[eventPlayer.ReturnCheckpointIndex + 1]
 

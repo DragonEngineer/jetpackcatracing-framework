@@ -23,6 +23,7 @@ playervar SpeedMultiplier 4
 playervar ReturnCheckpointIndex 5
 playervar GoalCheckpoint 6
 playervar AfterNextCheckpoint 7
+playervar LastCheckpoint 8
 
 
 #!define LeftAlign100 "                                                                                                    "

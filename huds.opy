@@ -22,14 +22,19 @@ rule "HUD Setup":
         f"Discord: dsc.gg/jetpack{LeftAlign100}",
         HudPosition.LEFT, HO.disc, ColorConfig[Customize.dsc], HudReeval.VISIBILITY, SpecVisibility.DEFAULT)
 
-    hudSubtext(getAllPlayers(), f"Hold {inputBindingString(Button.RELOAD)} to restart", HudPosition.RIGHT, HO.controls, ColorConfig[Customize.control_hud_1] , HudReeval.VISIBILITY_AND_STRING)
+    hudSubtext(getAllPlayers(), 
+        "Press {0}: reset\n"
+        "Hold {0}: full restart\n"
+        "".format(
+        inputBindingString(Button.RELOAD)
+        ), 
+        HudPosition.RIGHT, HO.controls, ColorConfig[Customize.control_hud_1] , HudReeval.VISIBILITY_AND_STRING
+    )
     
     hudSubtext(localPlayer, f"Time: {localPlayer.Timer}", HudPosition.TOP, HO.timer, ColorConfig[Customize.player_time] , HudReeval.VISIBILITY_AND_STRING)
 
     hudSubtext(localPlayer, "\nSpeed: {}\nMultiplier: x{}{}".format(localPlayer.getSpeed(), localPlayer.SpeedMultiplier/100,LeftAlign100), HudPosition.LEFT, HO.spd, ColorConfig[Customize.spd_color], HudReeval.VISIBILITY_AND_STRING)
     
-
-
     # checkpoint icon as text
     #createInWorldText(localPlayer.filter(lambda _: localPlayer.GoalCheckpoint != 0), GoalText, localPlayer.GoalCheckpoint, 1, Clip.NONE, WorldTextReeval.VISIBILITY_AND_POSITION,  ColorConfig[Customize.goal_color] , SpecVisibility.DEFAULT)
 
