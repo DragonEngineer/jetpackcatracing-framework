@@ -3,6 +3,10 @@
 
 rule "Init Global":
     # disableInspector()
+    disableAnnouncer()
+    disableGamemodeCompletion()
+    disableScoring()
+    
     wait(1)
     setMatchTime(900)
     #setObjectiveDescription(getAllPlayers(), "{0} {1}".format(heroIcon(Hero.JETPACK_CAT), "Jetpack Cat Racing!"), HudReeval.VISIBILITY_AND_STRING)
@@ -16,6 +20,7 @@ rule "Init Player":
     @Condition eventPlayer.isDummy() == false
     @Condition getTotalTimeElapsed() > 1
 
+    eventPlayer.disableKillFeed()
     eventPlayer.disableGamemodeHud()
     eventPlayer.disableGamemodeInWorldUi()
     eventPlayer.disableMessages()
@@ -24,3 +29,4 @@ rule "Init Player":
     chaseAtRate(eventPlayer.Timer, 0, 1, ChaseRateReeval.NONE)
       
     FullReset()
+
