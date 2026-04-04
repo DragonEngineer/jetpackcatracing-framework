@@ -1,5 +1,15 @@
 #!mainFile "main.opy"
 
+rule "anti crash":
+	@Event global
+	@Condition getServerLoad() > 250
+    wait(1, Wait.ABORT_WHEN_FALSE)
+    smallMessage(getAllPlayers(), "anti-crash system activated")
+    setSlowMotion(10)
+    waitUntil(getServerLoad() < 230, Math.INFINITY)
+    setSlowMotion(100)
+
+
 def Reset():
     eventPlayer.teleport(StartVector)
     eventPlayer.startForcingPosition(StartVector)
