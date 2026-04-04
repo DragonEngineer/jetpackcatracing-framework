@@ -1,5 +1,6 @@
 #!mainFile "main.opy"
-
+#!extension playMoreEffects
+#!extension explosionSounds
 settings {
     "main": {
         "description": "Jetpack Cat Racing Overhaul.\nAdapted by nebula, original credit to Jashaal and Roeesun.",
@@ -8,9 +9,9 @@ settings {
     "lobby": {
         "allowPlayersInQueue": true,
         "mapRotation": "afterGame",
-        "spectatorSlots": 12,
+        "spectatorSlots": 3,
         "team1Slots": 0,
-        "team2Slots": 12,
+        "team2Slots": 10,
         "returnToLobby": "never",
         "swapTeamsAfterMatch": false
     },
