@@ -48,6 +48,12 @@ rule "Reset - full":
     wait(0.5, Wait.ABORT_WHEN_FALSE)
     FullReset()
 
+rule "handle death and taxes":
+    @Event playerDied
+    eventPlayer.respawn()
+    GoToResetPoint()
+    ResetSpeed()
+    
 rule "Arrive at Checkpoint":
     @Event eachPlayer
     @Condition distance(eventPlayer.GoalCheckpoint, eventPlayer.getEyePosition()) <= RingSize #2.65
