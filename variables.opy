@@ -40,7 +40,7 @@ enum LoadOrder:
     destructo   = 0.016 * 2,
     #setup       = 0.016 * 32,
     #addon       = 0.016 * 40,
-    #hudsGlobal  = 0.016 * 48,
+    hudsGlobal  = 0.016 * 48,
     #hudsPlayer  = 0.016 * 56,
     #hudsEditor  = 0.016 * 64,
     effects     = 0.016 * 256,
