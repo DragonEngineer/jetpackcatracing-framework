@@ -28,5 +28,5 @@ rule "HUD Setup":
 
 rule "Effects Setup":
     wait(LoadOrder.effects)
-    createEffect(localPlayer.filter(lambda _: localPlayer.Last_checkpoint != 0), Effect.GOOD_AURA, ColorConfig[Customize.goal_checkpoint], localPlayer.Last_checkpoint, RingSize-0.15, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
-    createEffect(localPlayer.filter(lambda _: localPlayer.Goal_checkpoint != 0), Effect.GOOD_AURA, ColorConfig[Customize.after_next], localPlayer.Goal_checkpoint, RingSize-0.15, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+    createEffect(localPlayer.filter(lambda _: localPlayer.Goal_checkpoint != 0), Effect.GOOD_AURA, ColorConfig[Customize.goal_cp], localPlayer.Goal_checkpoint, RingSize-0.15, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+    createEffect(localPlayer.filter(lambda _: localPlayer.After_next_checkpoint != 0), Effect.GOOD_AURA, ColorConfig[Customize.after_next_cp], localPlayer.After_next_checkpoint, RingSize-0.15, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)

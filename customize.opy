@@ -26,9 +26,9 @@ rule "Customize Credits and Colors Here":
     ColorConfig[Customize.player_time] = Color.WHITE
 
     #next cp
-    ColorConfig[Customize.goal_checkpoint] = Color.GREEN
+    ColorConfig[Customize.goal_cp] = Color.GREEN
 
     #after next cp
-    ColorConfig[Customize.after_next] = Color.WHITE
+    ColorConfig[Customize.after_next_cp] = Color.WHITE
 
 

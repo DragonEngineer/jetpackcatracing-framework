@@ -20,8 +20,8 @@ playervar High_Score 2
 playervar IsRacing 3
 playervar SpeedMultiplier 4
 playervar ReturnCheckpointIndex 5
-playervar Last_checkpoint 6
-playervar Goal_checkpoint 7
+playervar Goal_checkpoint 6
+playervar After_next_checkpoint 7
 
 
 #!define LeftAlign100 "                                                                                                    "
@@ -32,8 +32,8 @@ enum Customize:
     dsc,
     control_hud_1,
     player_time,
-    goal_checkpoint,
-    after_next,
+    after_next_cp,
+    goal_cp,
 
 enum LoadOrder:
     mapData     = -1,
