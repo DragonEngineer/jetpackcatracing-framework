@@ -1,5 +1,6 @@
 #!mainFile "main.opy"
 
+
 rule "HUD Setup":
     wait(LoadOrder.hudsGlobal)
     # hudSubtext(getAllPlayers(), "\n", HudPosition.LEFT, 0, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
