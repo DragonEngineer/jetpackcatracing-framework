@@ -26,6 +26,7 @@ playervar AfterNextCheckpoint 7
 
 
 #!define LeftAlign100 "                                                                                                    "
+##!define LeftAlign100 ""
 
 enum Customize: 
     credit_name,
@@ -36,6 +37,7 @@ enum Customize:
     after_next_cp,
     goal_cp,
     goal_color,
+    spd_color,
 
 enum LoadOrder:
     mapData     = -1,
@@ -49,11 +51,13 @@ enum LoadOrder:
     effects     = 0.016 * 256,
 
 enum HO: # hud ordering
-    # hud middle
+    # hud middle ###############
     timer,
-    # hud left
+
+    # hud left ###############
     credit,
     disc,
+    spd,
 
-    # hud right
+    # hud right ###############
     controls,

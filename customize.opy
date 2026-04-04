@@ -34,5 +34,6 @@ rule "Customize Credits and Colors Here":
     #goal icon color
     ColorConfig[Customize.goal_color] = Color.ROSE
 
-
+    #speed meter color
+    ColorConfig[Customize.spd_color] = Color.WHITE
     
