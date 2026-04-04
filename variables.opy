@@ -11,6 +11,7 @@ globalvar MapCode 5
 globalvar ColorConfig 6
 globalvar MapVectorArray 7 # for fence breaker
 globalvar RingSize 8
+globalvar GoalText 9 
 
 # Player variables
 
@@ -20,8 +21,8 @@ playervar High_Score 2
 playervar IsRacing 3
 playervar SpeedMultiplier 4
 playervar ReturnCheckpointIndex 5
-playervar Goal_checkpoint 6
-playervar After_next_checkpoint 7
+playervar GoalCheckpoint 6
+playervar AfterNextCheckpoint 7
 
 
 #!define LeftAlign100 "                                                                                                    "
@@ -34,6 +35,7 @@ enum Customize:
     player_time,
     after_next_cp,
     goal_cp,
+    goal_color,
 
 enum LoadOrder:
     mapData     = -1,

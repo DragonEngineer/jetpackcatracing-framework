@@ -25,8 +25,14 @@ rule "HUD Setup":
     hudSubtext(getAllPlayers(), f"Hold {inputBindingString(Button.RELOAD)} to restart", HudPosition.RIGHT, HO.controls, ColorConfig[Customize.control_hud_1] , HudReeval.VISIBILITY_AND_STRING)
     
     hudSubtext(localPlayer, f"Time: {localPlayer.Timer}", HudPosition.TOP, HO.timer, ColorConfig[Customize.player_time] , HudReeval.VISIBILITY_AND_STRING)
+    
+    createInWorldText(localPlayer.filter(lambda _: localPlayer.GoalCheckpoint != 0), GoalText, localPlayer.GoalCheckpoint, 1, Clip.NONE, WorldTextReeval.VISIBILITY_AND_POSITION,  ColorConfig[Customize.goal_color] , SpecVisibility.DEFAULT)
 
 rule "Effects Setup":
     wait(LoadOrder.effects)
-    createEffect(localPlayer.filter(lambda _: localPlayer.Goal_checkpoint != 0), Effect.GOOD_AURA, ColorConfig[Customize.goal_cp], localPlayer.Goal_checkpoint, RingSize-0.15, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
-    createEffect(localPlayer.filter(lambda _: localPlayer.After_next_checkpoint != 0), Effect.GOOD_AURA, ColorConfig[Customize.after_next_cp], localPlayer.After_next_checkpoint, RingSize-0.15, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+    createEffect(localPlayer.filter(lambda _: localPlayer.GoalCheckpoint != 0), Effect.GOOD_AURA, ColorConfig[Customize.goal_cp], localPlayer.GoalCheckpoint, RingSize-0.15, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+    createEffect(localPlayer.filter(lambda _: localPlayer.AfterNextCheckpoint != 0), Effect.GOOD_AURA, ColorConfig[Customize.after_next_cp], localPlayer.AfterNextCheckpoint, RingSize-0.15, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+
+    #createIcon(localPlayer.filter(lambda _: localPlayer.GoalCheckpoint != 0),pos, icon, IconReeval.VISIBILITY_AND_POSITION, Color, true)
+    
+  

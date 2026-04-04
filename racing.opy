@@ -17,8 +17,8 @@ def Reset():
     eventPlayer.setFacing(directionTowards(eventPlayer.getEyePosition(), Checkpoints[0]), Relativity.TO_WORLD)
     stopChasingVariable(eventPlayer.Timer)
     eventPlayer.ReturnCheckpointIndex = 0
-    eventPlayer.Goal_checkpoint = Checkpoints[0]
-    eventPlayer.After_next_checkpoint = Checkpoints[1]
+    eventPlayer.GoalCheckpoint = Checkpoints[0]
+    eventPlayer.AfterNextCheckpoint = Checkpoints[1]
     eventPlayer.Timer = 0
     eventPlayer.High_Score = []
     eventPlayer.IsRacing = false
@@ -41,7 +41,7 @@ rule "Reset":
 
 rule "Arrive at Checkpoint":
     @Event eachPlayer
-    @Condition distance(eventPlayer.Goal_checkpoint, eventPlayer.getEyePosition()) <= RingSize #2.65
+    @Condition distance(eventPlayer.GoalCheckpoint, eventPlayer.getEyePosition()) <= RingSize #2.65
     @Condition eventPlayer.isAlive()
     # TODO: Separate starting the level vs arriving at a checkpoint IN the level?
     playEffect(eventPlayer, DynamicEffect.BUFF_EXPLOSION_SOUND, Color.WHITE, eventPlayer.getEyePosition(), 100)
@@ -53,14 +53,14 @@ rule "Arrive at Checkpoint":
     eventPlayer.SpeedMultiplier += 3
 
     eventPlayer.ReturnCheckpointIndex += 1
-    eventPlayer.Goal_checkpoint = eventPlayer.After_next_checkpoint
-    eventPlayer.After_next_checkpoint = Checkpoints[eventPlayer.ReturnCheckpointIndex + 1]
+    eventPlayer.GoalCheckpoint = eventPlayer.AfterNextCheckpoint
+    eventPlayer.AfterNextCheckpoint = Checkpoints[eventPlayer.ReturnCheckpointIndex + 1]
 
 
 
 rule "Finish":
     @Event eachPlayer
-    @Condition not eventPlayer.Goal_checkpoint
+    @Condition not eventPlayer.GoalCheckpoint
     #@Condition eventPlayer.Timer != 0
     
     eventPlayer.IsRacing = false
