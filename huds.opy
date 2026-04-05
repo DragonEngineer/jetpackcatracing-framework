@@ -61,22 +61,50 @@ rule "Editor HUD":
         hostPlayer if eventPlayer.EditorMode > EditorMode.OFF else null,
         f"{'N/A' if eventPlayer.EditorMode == EditorMode.ON else 'Move Checkpoint' if eventPlayer.EditorMode == EditorMode.MOVE_CHECKPOINT else 'Insert Checkpoint' if eventPlayer.EditorMode == EditorMode.INSERT_CHECKPOINT else 'Remove Checkpoint'}",
         HudPosition.TOP, 
-        100, 
+        99, 
         Color.PURPLE, 
         HudReeval.VISIBILITY_STRING_AND_COLOR, 
         SpecVisibility.NEVER
     )
     hudSubtext(
         hostPlayer if eventPlayer.EditorMode > EditorMode.OFF else null,
-        f"<<< {'N/A' if (eventPlayer.EditorMode + 1 if eventPlayer.EditorMode < len(EditorMode) - 1 else 1) == EditorMode.ON else 'Move Checkpoint' if (eventPlayer.EditorMode + 1 if eventPlayer.EditorMode < len(EditorMode) - 1 else 1) == EditorMode.MOVE_CHECKPOINT else 'Insert Checkpoint' if (eventPlayer.EditorMode + 1 if eventPlayer.EditorMode < len(EditorMode) - 1 else 1) == EditorMode.INSERT_CHECKPOINT else 'Remove Checkpoint'} | {'N/A' if (eventPlayer.EditorMode - 1 if eventPlayer.EditorMode > 1 else len(EditorMode) - 1) == EditorMode.ON else 'Move Checkpoint' if (eventPlayer.EditorMode - 1 if eventPlayer.EditorMode > 1 else len(EditorMode) - 1) == EditorMode.MOVE_CHECKPOINT else 'Insert Checkpoint' if (eventPlayer.EditorMode - 1 if eventPlayer.EditorMode > 1 else len(EditorMode) - 1) == EditorMode.INSERT_CHECKPOINT else 'Remove Checkpoint'} >>>",        HudPosition.TOP, 
+        f"\n\n\n\n\n\n\n\n       FORWARD\nNEXT CHECKPOINT",
+        HudPosition.TOP, 
+        100, 
+        Color.WHITE, 
+        HudReeval.VISIBILITY_STRING_AND_COLOR, 
+        SpecVisibility.NEVER
+    )
+    hudSubtext(
+        hostPlayer if eventPlayer.EditorMode > EditorMode.OFF else null,
+        f"\n\n\n\n\n\n\n<<< {'N/A' if (eventPlayer.EditorMode + 1 if eventPlayer.EditorMode < len(EditorMode) - 1 else 1) == EditorMode.ON else 'Move Checkpoint' if (eventPlayer.EditorMode + 1 if eventPlayer.EditorMode < len(EditorMode) - 1 else 1) == EditorMode.MOVE_CHECKPOINT else 'Insert Checkpoint' if (eventPlayer.EditorMode + 1 if eventPlayer.EditorMode < len(EditorMode) - 1 else 1) == EditorMode.INSERT_CHECKPOINT else 'Remove Checkpoint'}                                                                             {'N/A' if (eventPlayer.EditorMode - 1 if eventPlayer.EditorMode > 1 else len(EditorMode) - 1) == EditorMode.ON else 'Move Checkpoint' if (eventPlayer.EditorMode - 1 if eventPlayer.EditorMode > 1 else len(EditorMode) - 1) == EditorMode.MOVE_CHECKPOINT else 'Insert Checkpoint' if (eventPlayer.EditorMode - 1 if eventPlayer.EditorMode > 1 else len(EditorMode) - 1) == EditorMode.INSERT_CHECKPOINT else 'Remove Checkpoint'} >>>",
+        HudPosition.TOP, 
         101, 
         Color.WHITE, 
         HudReeval.VISIBILITY_STRING_AND_COLOR, 
         SpecVisibility.NEVER
     )
+    hudSubtext(
+        hostPlayer if eventPlayer.EditorMode > EditorMode.OFF else null,
+        f"\n\n\n\n                                                                              Exit Editor: {inputBindingString(Button.INTERACT)}" if eventPlayer.EditorMode == EditorMode.ON else f"\n\n\n\n                                                                              Save: {inputBindingString(Button.MELEE)}" if eventPlayer.EditorMode == EditorMode.MOVE_CHECKPOINT and eventPlayer.ActivelyEditing else f"\n\n\n\n                                                                              Move: {inputBindingString(Button.MELEE)}" if eventPlayer.EditorMode == EditorMode.MOVE_CHECKPOINT else f"\n\n\n\n                                                                              Insert: {inputBindingString(Button.MELEE)}" if eventPlayer.EditorMode == EditorMode.INSERT_CHECKPOINT else f"\n\n\n\n                                                                              Remove: {inputBindingString(Button.MELEE)}",
+        HudPosition.TOP,
+        102,
+        Color.WHITE, 
+        HudReeval.VISIBILITY_STRING_AND_COLOR,
+        SpecVisibility.NEVER
+    )
+    hudSubtext(
+        hostPlayer if eventPlayer.EditorMode > EditorMode.OFF else null,
+        f"\n\n\n\n         BACKWARDS\nPREVIOUS CHECKPOINT",
+        HudPosition.TOP, 
+        103, 
+        Color.WHITE, 
+        HudReeval.VISIBILITY_STRING_AND_COLOR, 
+        SpecVisibility.NEVER
+    )
+
     hudSubtext(getAllPlayers(), 
-        f"Hold {inputBindingString(Button.INTERACT)}: To Select Checkpoints\n"
-        "Hold {inputBindingString(Button.MELEE)}: Checkpoint Action/Save\n",
+        f"Hold {inputBindingString(Button.INTERACT)}: To Enable Editor Mode\n",
         HudPosition.RIGHT, HO.controls + 10, ColorConfig[Customize.control_hud_1] , HudReeval.VISIBILITY_AND_STRING
     )
 
