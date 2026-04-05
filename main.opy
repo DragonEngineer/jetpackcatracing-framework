@@ -1,6 +1,6 @@
 
 #!optimizeStrict
-#!setupTags
+##!setupTags
 
 
 #!define versionhere "0.1.0"
