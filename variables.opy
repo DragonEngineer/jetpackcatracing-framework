@@ -80,9 +80,9 @@ enum HudOrder: # hud ordering
 enum EditorMode:
     OFF = 0,
     ON = 1,
-    MOVE_CHECKPOINT = 2,
-    INSERT_CHECKPOINT = 3,
-    REMOVE_CHECKPOINT = 4,
+    MOVE = 2,
+    INSERT = 3,
+    REMOVE = 4,
 
 macro Array.insertAt(index, item):
     self.append(null)

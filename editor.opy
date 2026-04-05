@@ -8,7 +8,7 @@ rule "Editor | Enable Checkpoint Selection":
     wait(0.5, Wait.ABORT_WHEN_FALSE)
     if not Checkpoints:
         Checkpoints = [vect(10, 10, 10)]
-    eventPlayer.EditorMode = EditorMode.MOVE_CHECKPOINT if eventPlayer.EditorMode == EditorMode.OFF else EditorMode.OFF
+    eventPlayer.EditorMode = EditorMode.MOVE if eventPlayer.EditorMode == EditorMode.OFF else EditorMode.OFF
     if eventPlayer.EditorMode:
         smallMessage(hostPlayer, "   Checkpoint Selection Enabled")
         StartEditorCamera()
@@ -50,7 +50,7 @@ rule "Editor | Enable Checkpoint Edit":
     @Event eachPlayer
     @Condition wsEditorMode
     @Condition eventPlayer == hostPlayer
-    @Condition eventPlayer.EditorMode == EditorMode.MOVE_CHECKPOINT and eventPlayer.isHoldingButton(Button.MELEE)
+    @Condition eventPlayer.EditorMode == EditorMode.MOVE and eventPlayer.isHoldingButton(Button.MELEE)
     wait(0.5, Wait.ABORT_WHEN_FALSE)
     eventPlayer.ActivelyEditing = not eventPlayer.ActivelyEditing
     if eventPlayer.ActivelyEditing:
@@ -71,7 +71,7 @@ rule "Editor | Start Editing Position":
     @Event eachPlayer
     @Condition wsEditorMode
     @Condition eventPlayer == hostPlayer
-    @Condition eventPlayer.EditorMode == EditorMode.MOVE_CHECKPOINT and eventPlayer.ActivelyEditing
+    @Condition eventPlayer.EditorMode == EditorMode.MOVE and eventPlayer.ActivelyEditing
     # @Condition hostPlayer.isHoldingButton(Button.MELEE)
 
     waitUntil(not hostPlayer.isHoldingButton(Button.MELEE), Math.INFINITY)
@@ -84,7 +84,7 @@ rule "Editor | Remove Checkpoint":
     @Event eachPlayer
     @Condition wsEditorMode
     @Condition eventPlayer == hostPlayer
-    @Condition eventPlayer.EditorMode == EditorMode.REMOVE_CHECKPOINT and eventPlayer.isHoldingButton(Button.MELEE)
+    @Condition eventPlayer.EditorMode == EditorMode.REMOVE and eventPlayer.isHoldingButton(Button.MELEE)
 
     smallMessage(hostPlayer, "   Checkpoint Removed")
     del Checkpoints[eventPlayer.CurrentCheckpointIdx]
@@ -95,12 +95,12 @@ rule "Editor | Insert Checkpoint (After Current Checkpoint)":
     @Event eachPlayer
     @Condition wsEditorMode
     @Condition eventPlayer == hostPlayer
-    @Condition eventPlayer.EditorMode == EditorMode.INSERT_CHECKPOINT and eventPlayer.isHoldingButton(Button.MELEE)
+    @Condition eventPlayer.EditorMode == EditorMode.INSERT and eventPlayer.isHoldingButton(Button.MELEE)
     smallMessage(hostPlayer, "   Checkpoint Inserted")
     Checkpoints.insertAt(eventPlayer.CurrentCheckpointIdx, Checkpoints[eventPlayer.CurrentCheckpointIdx])
     eventPlayer.CurrentCheckpointIdx += 1
     SetCheckpoints()
-    eventPlayer.EditorMode = EditorMode.MOVE_CHECKPOINT
+    eventPlayer.EditorMode = EditorMode.MOVE
     eventPlayer.ActivelyEditing = true
     StartEditorCamera2()
     eventPlayer.EditCheckpointTemp = Checkpoints[eventPlayer.CurrentCheckpointIdx]
