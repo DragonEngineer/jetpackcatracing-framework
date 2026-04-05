@@ -1,35 +1,25 @@
 #!mainFile "main.opy"
 
-
-# TODO: Move into huds.opy
-rule "Editor Init":
-    @Event eachPlayer
-    @Condition eventPlayer == hostPlayer
-
-    hudHeader(
-        hostPlayer if eventPlayer.EditorMode > EditorMode.OFF else null, 
-        f"Editor Mode: {'N/A' if eventPlayer.EditorMode == EditorMode.ON else 'Move Checkpoint' if eventPlayer.EditorMode == EditorMode.MOVE_CHECKPOINT else 'Insert Checkpoint' if eventPlayer.EditorMode == EditorMode.INSERT_CHECKPOINT else 'Remove Checkpoint'}", 
-        HudPosition.TOP, 
-        100, 
-        Color.PURPLE, 
-        HudReeval.VISIBILITY_STRING_AND_COLOR, 
-        SpecVisibility.NEVER
-    )
-
 rule "Editor | Enable Checkpoint Selection":
     @Event eachPlayer
+    @Condition wsEditorMode
     @Condition eventPlayer == hostPlayer
     @Condition eventPlayer.isHoldingButton(Button.INTERACT)
     wait(0.5, Wait.ABORT_WHEN_FALSE)
+    if not Checkpoints:
+        Checkpoints = [vect(10, 10, 10)]
     eventPlayer.EditorMode = EditorMode.ON if eventPlayer.EditorMode != EditorMode.ON else EditorMode.OFF
     if eventPlayer.EditorMode:
+        smallMessage(hostPlayer, "   Checkpoint Selection Enabled")
         StartEditorCamera()
     else:
+        smallMessage(hostPlayer, "   Checkpoint Selection Disabled")
         StopEditorCamera()
 
 
 rule "Editor | Select Checkpoint & Mode":
     @Event eachPlayer
+    @Condition wsEditorMode
     @Condition eventPlayer == hostPlayer
     @Condition eventPlayer.EditorMode > EditorMode.OFF and not eventPlayer.ActivelyEditing and (eventPlayer.getThrottle().z != 0 or eventPlayer.getThrottle().x != 0)
 
@@ -54,21 +44,23 @@ rule "Editor | Select Checkpoint & Mode":
             eventPlayer.EditorMode = len(EditorMode) - 1
     
     SetCheckpoints()
-
     wait(0)
 
 rule "Editor | Enable Checkpoint Edit":
     @Event eachPlayer
+    @Condition wsEditorMode
     @Condition eventPlayer == hostPlayer
     @Condition eventPlayer.EditorMode == EditorMode.MOVE_CHECKPOINT and eventPlayer.isHoldingButton(Button.MELEE)
     wait(0.5, Wait.ABORT_WHEN_FALSE)
     eventPlayer.ActivelyEditing = not eventPlayer.ActivelyEditing
     if eventPlayer.ActivelyEditing:
+        smallMessage(hostPlayer, "   Checkpoint Edit Enabled")
         StartEditorCamera2()
         eventPlayer.EditCheckpointTemp = Checkpoints[eventPlayer.CurrentCheckpointIdx]
         createEffect(eventPlayer, Effect.GOOD_AURA, Color.ROSE, eventPlayer.EditCheckpointTemp, RingSize-0.15, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
         eventPlayer.EditCheckpointEffect = getLastCreatedEntity()
     else:
+        smallMessage(hostPlayer, "   Checkpoint Edit Saved")
         StartEditorCamera()
         Checkpoints[eventPlayer.CurrentCheckpointIdx] = eventPlayer.EditCheckpointTemp
         SetCheckpoints()
@@ -77,9 +69,10 @@ rule "Editor | Enable Checkpoint Edit":
 
 rule "Editor | Start Editing Position":
     @Event eachPlayer
+    @Condition wsEditorMode
     @Condition eventPlayer == hostPlayer
     @Condition eventPlayer.EditorMode == EditorMode.MOVE_CHECKPOINT and eventPlayer.ActivelyEditing
-    @Condition hostPlayer.isHoldingButton(Button.MELEE)
+    # @Condition hostPlayer.isHoldingButton(Button.MELEE)
 
     waitUntil(not hostPlayer.isHoldingButton(Button.MELEE), Math.INFINITY)
 
@@ -89,18 +82,21 @@ rule "Editor | Start Editing Position":
 
 rule "Editor | Remove Checkpoint":
     @Event eachPlayer
+    @Condition wsEditorMode
     @Condition eventPlayer == hostPlayer
     @Condition eventPlayer.EditorMode == EditorMode.REMOVE_CHECKPOINT and eventPlayer.isHoldingButton(Button.MELEE)
 
+    smallMessage(hostPlayer, "   Checkpoint Removed")
     del Checkpoints[eventPlayer.CurrentCheckpointIdx]
     eventPlayer.CurrentCheckpointIdx -= 1
     SetCheckpoints()
 
 rule "Editor | Insert Checkpoint (After Current Checkpoint)":
     @Event eachPlayer
+    @Condition wsEditorMode
     @Condition eventPlayer == hostPlayer
     @Condition eventPlayer.EditorMode == EditorMode.INSERT_CHECKPOINT and eventPlayer.isHoldingButton(Button.MELEE)
-
+    smallMessage(hostPlayer, "   Checkpoint Inserted")
     Checkpoints.insertAt(eventPlayer.CurrentCheckpointIdx, Checkpoints[eventPlayer.CurrentCheckpointIdx])
     eventPlayer.CurrentCheckpointIdx += 1
     SetCheckpoints()

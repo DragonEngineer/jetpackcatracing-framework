@@ -52,4 +52,27 @@ rule "Effects Setup":
         IconReeval.VISIBILITY_AND_POSITION, ColorConfig[Customize.goal_color], true
     )
     
-  
+rule "Editor HUD":
+    @Event eachPlayer
+    @Condition wsEditorMode
+    @Condition eventPlayer == hostPlayer
+    
+    hudHeader(
+        hostPlayer if eventPlayer.EditorMode > EditorMode.OFF else null,
+        f"{'N/A' if eventPlayer.EditorMode == EditorMode.ON else 'Move Checkpoint' if eventPlayer.EditorMode == EditorMode.MOVE_CHECKPOINT else 'Insert Checkpoint' if eventPlayer.EditorMode == EditorMode.INSERT_CHECKPOINT else 'Remove Checkpoint'}",
+        HudPosition.TOP, 
+        100, 
+        Color.PURPLE, 
+        HudReeval.VISIBILITY_STRING_AND_COLOR, 
+        SpecVisibility.NEVER
+    )
+    hudSubtext(
+        hostPlayer if eventPlayer.EditorMode > EditorMode.OFF else null,
+        f"<-- {'N/A' if (eventPlayer.EditorMode - 1 if eventPlayer.EditorMode > 1 else len(EditorMode) - 1) == EditorMode.ON else 'Move Checkpoint' if (eventPlayer.EditorMode - 1 if eventPlayer.EditorMode > 1 else len(EditorMode) - 1) == EditorMode.MOVE_CHECKPOINT else 'Insert Checkpoint' if (eventPlayer.EditorMode - 1 if eventPlayer.EditorMode > 1 else len(EditorMode) - 1) == EditorMode.INSERT_CHECKPOINT else 'Remove Checkpoint'} | {'N/A' if (eventPlayer.EditorMode + 1 if eventPlayer.EditorMode < len(EditorMode) - 1 else 1) == EditorMode.ON else 'Move Checkpoint' if (eventPlayer.EditorMode + 1 if eventPlayer.EditorMode < len(EditorMode) - 1 else 1) == EditorMode.MOVE_CHECKPOINT else 'Insert Checkpoint' if (eventPlayer.EditorMode + 1 if eventPlayer.EditorMode < len(EditorMode) - 1 else 1) == EditorMode.INSERT_CHECKPOINT else 'Remove Checkpoint'} -->",
+        HudPosition.TOP, 
+        101, 
+        Color.WHITE, 
+        HudReeval.VISIBILITY_STRING_AND_COLOR, 
+        SpecVisibility.NEVER
+    )
+    

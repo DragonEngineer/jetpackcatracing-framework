@@ -11,7 +11,8 @@ globalvar MapCode 5
 globalvar ColorConfig 6
 globalvar MapVectorArray 7 # for fence breaker
 globalvar RingSize 8
-globalvar GoalText 9 
+globalvar GoalText 9
+globalvar wsEditorMode 10
 
 # Player variables
 
@@ -93,3 +94,4 @@ macro Player.flyMovementDelta():
     (self.getFacingDirection() * self.getThrottle().z * (vect(1, not self.isHoldingButton(Button.ABILITY_1), 1)) +
     worldVector(self.getThrottle() * Vector.LEFT, self, Transform.ROTATION) +
     Vector.UP * (self.isHoldingButton(Button.JUMP) - self.isHoldingButton(Button.CROUCH))))
+

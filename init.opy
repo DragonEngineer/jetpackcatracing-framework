@@ -30,3 +30,5 @@ rule "Init Player":
     waitUntil(getTotalTimeElapsed() > 1, 1) # map variables need to load first
     FullReset()
 
+rule "Init Editor":
+    wsEditorMode = createWorkshopSettingBool("Editor", "Editor Mode Enabled", false, 0)
