@@ -75,4 +75,10 @@ rule "Editor HUD":
         HudReeval.VISIBILITY_STRING_AND_COLOR, 
         SpecVisibility.NEVER
     )
+    hudSubtext(getAllPlayers(), 
+        f"Hold {inputBindingString(Button.INTERACT)}: To Select Checkpoints\n"
+        "Hold {inputBindingString(Button.MELEE)}: Checkpoint Action/Save\n",
+        HudPosition.RIGHT, HO.controls + 10, ColorConfig[Customize.control_hud_1] , HudReeval.VISIBILITY_AND_STRING
+    )
+
     
