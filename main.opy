@@ -5,11 +5,11 @@
 # settings ###################
 #!define versionhere "0.1.0"
 
-#!define editor_on true
+#!define editor_on false
 #!define inspector_on true
 
 # testscripts disable: ##, enable: #
-#!define test_script #
+#!define test_script ##
 
 
 # includes ###################

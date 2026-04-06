@@ -14,6 +14,8 @@ globalvar RingSize 8
 globalvar GoalText 9
 globalvar wsEditorMode 10
 
+globalvar testAI # array with test bots
+
 # Player variables
 
 playervar EditorMode 0

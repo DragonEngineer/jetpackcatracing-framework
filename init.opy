@@ -21,7 +21,7 @@ rule "Init Global":
 
 rule "Init Player":
     @Event playerJoined
-    @Condition eventPlayer.isDummy() == false
+    @Condition eventPlayer.isDummy() == false or eventPlayer in testAI
     eventPlayer.disableKillFeed()
     eventPlayer.disableGamemodeHud()
     eventPlayer.disableGamemodeInWorldUi()

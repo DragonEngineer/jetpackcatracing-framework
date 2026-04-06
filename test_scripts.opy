@@ -49,3 +49,59 @@ rule "test huds":
         HudReeval.VISIBILITY_SORT_ORDER_STRING_AND_COLOR, SpecVisibility.DEFAULT
     )
 
+
+
+
+#!define bots_on true
+
+#!define leaderboard_test true
+#!define other_action false
+#!define testbot_number 11
+#!define test_team Team.2
+#!define action_delay 0.4
+
+#in "Init Player" set the bot as valid if he is in test bot var
+
+rule "jumpcp":
+    @Event eachPlayer
+    @Condition eventPlayer.isHoldingButton(Button.ULTIMATE)
+    
+    eventPlayer.CurrentCheckpointIdx = len(Checkpoints) - 2
+    SetCheckpoints()
+     eventPlayer.teleport(eventPlayer.GoalCheckpoint + Vector.UP  + Vector.UP * RingSize)
+    eventPlayer.startForcingButton(Button.CROUCH)
+    waitUntil(not eventPlayer.IsRacing, 5)
+    eventPlayer.stopForcingButton(Button.CROUCH)
+
+
+rule "create test bots":
+    @Condition bots_on
+    testAI = []
+    while len(testAI) < testbot_number:
+        createDummy(Hero.JETPACK_CAT, test_team, -1, null, null)
+        testAI.append(getLastCreatedEntity())
+        wait(0.1)
+        testAI[len(testAI)-1].startForcingName("test bot {0}".format(len(testAI)-1))
+
+
+rule "leaderboard test":
+    @Event eachPlayer
+    #@Condition len(testAI) > testbot_number - 1 # check if all bots have loaded
+    @Condition getTotalTimeElapsed() > 5 == true
+    @Condition other_action == false
+    @Condition eventPlayer in testAI
+
+    wait(1)
+    #FullReset()
+    eventPlayer.startForcingButton(Button.CROUCH)
+    wait(0.1)
+    eventPlayer.stopForcingButton(Button.CROUCH)
+    wait( ((testAI.index(eventPlayer)) * 0.5 ) )
+
+    eventPlayer.CurrentCheckpointIdx = len(Checkpoints) - 2
+    SetCheckpoints()
+    eventPlayer.teleport(eventPlayer.GoalCheckpoint + Vector.UP  + Vector.UP * RingSize)
+    wait(1)
+    eventPlayer.startForcingButton(Button.CROUCH)
+    waitUntil(not eventPlayer.IsRacing, 5)
+    eventPlayer.stopForcingButton(Button.CROUCH)
