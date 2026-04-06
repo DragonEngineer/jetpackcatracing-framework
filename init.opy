@@ -33,6 +33,6 @@ rule "Init Player":
     eventPlayer.setAbility1Enabled(false)
     eventPlayer.setStatusEffect(null, Status.INVINCIBLE, 999999)
     chaseAtRate(eventPlayer.Timer, 0, 1, ChaseRateReeval.NONE)
-    eventPlayer.High_Score = null
+    eventPlayer.PersonalBest = null
     waitUntil(getTotalTimeElapsed() > 1, 1) # map variables need to load first
     FullReset()

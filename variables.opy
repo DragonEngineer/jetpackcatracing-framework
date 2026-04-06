@@ -24,7 +24,7 @@ globalvar LeaderBoardRemake # trigger remake leaderboard
 
 playervar EditorMode 0
 playervar Timer 1
-playervar High_Score 2 # personal best
+playervar PersonalBest 2 # personal best
 playervar IsRacing 3
 playervar SpeedMultiplier 4
 playervar CurrentCheckpointIdx 5

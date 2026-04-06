@@ -44,7 +44,7 @@ rule "HUD Setup":
     # checkpoint icon as text
     #createInWorldText(localPlayer.filter(lambda _: localPlayer.GoalCheckpoint != 0), GoalText, localPlayer.GoalCheckpoint, 1, Clip.NONE, WorldTextReeval.VISIBILITY_AND_POSITION,  ColorConfig[Customize.GOAL_COLOR] , SpecVisibility.DEFAULT)
 
-    hudSubheader(localPlayer if localPlayer.High_Score else null, "{} Personal best: {}".format(abilityIconString(Hero.JETPACK_CAT, Button.ABILITY_2) ,localPlayer.High_Score), HudPosition.RIGHT, HudOrder.PERSONAL_BEST, ColorConfig[Customize.PERSONAL_BEST], HudReeval.VISIBILITY_SORT_ORDER_STRING_AND_COLOR, SpecVisibility.DEFAULT)
+    hudSubheader(localPlayer if localPlayer.PersonalBest else null, "{} Personal best: {}".format(abilityIconString(Hero.JETPACK_CAT, Button.ABILITY_2) ,localPlayer.PersonalBest), HudPosition.RIGHT, HudOrder.PERSONAL_BEST, ColorConfig[Customize.PERSONAL_BEST], HudReeval.VISIBILITY_SORT_ORDER_STRING_AND_COLOR, SpecVisibility.DEFAULT)
 
 
 rule "Effects Setup":

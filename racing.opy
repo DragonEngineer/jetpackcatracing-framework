@@ -104,10 +104,10 @@ rule "Finish":
             bigMessage(eventPlayer, "New personal best: {}".format(eventPlayer.Timer))
             LeaderboardEntries.remove( [i for i in LeaderboardEntries if i[0] == "{0}".format(eventPlayer)])
             LeaderboardEntries.append( [["{0}".format(eventPlayer),eventPlayer.Timer]] )
-            eventPlayer.High_Score = eventPlayer.Timer
+            eventPlayer.PersonalBest = eventPlayer.Timer
             LeaderboardUpdate()
     else: # you are not in list yet
-        eventPlayer.High_Score = eventPlayer.Timer
+        eventPlayer.PersonalBest = eventPlayer.Timer
             bigMessage(eventPlayer, "Completion time: {}".format(eventPlayer.Timer))
         if len(LeaderboardEntries) < 20: # board has room for more
             LeaderboardEntries.append( [["{0}".format(eventPlayer),eventPlayer.Timer] ])
