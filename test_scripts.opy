@@ -51,22 +51,23 @@ rule "test huds":
 
 
 
-# turns bots on
+# turns bots on/off completly
 #!define bots_on true
 
 #!define testbot_number 11
 #!define test_team Team.2
 
-# test leaderboard
+# test leaderboard (doesnt triger if action is on)
 #!define leaderboard_test true
 #!define leaderboard_delay 0.5
 
-# test other set actions
+# test other set actions (doesnt leaderboard if action is on)
 #!define other_action false
 #!define action_delay 0.4
 
+#!define delay_per_bot(x) wait( ((testAI.index(eventPlayer)) * x ) )
 
-rule "create test bots":
+rule "bots: create test bots":
     @Condition bots_on
     testAI = []
     while len(testAI) < testbot_number:
@@ -76,11 +77,12 @@ rule "create test bots":
         testAI[len(testAI)-1].startForcingName("test bot {0}".format(len(testAI)-1))
 
 
-rule "leaderboard test":
+rule "bots: leaderboard test routine":
     @Event eachPlayer
-    #@Condition len(testAI) > testbot_number - 1 # check if all bots have loaded
-    @Condition getTotalTimeElapsed() > 5 == true
+    @Condition getTotalTimeElapsed() > 5 
     @Condition other_action == false
+    @Condition leaderboard_test
+    @Condition bots_on
     @Condition eventPlayer in testAI
 
     # crouch to trigger start timer etc
@@ -89,7 +91,7 @@ rule "leaderboard test":
     eventPlayer.stopForcingButton(Button.CROUCH)
 
     # delay between each bot to variate leaderboard
-    wait( ((testAI.index(eventPlayer)) * leaderboard_delay ) )
+    delay_per_bot(leaderboard_delay)
 
     # set bot to last point, teleport them and force em down into it
     eventPlayer.CurrentCheckpointIdx = len(Checkpoints) - 2
@@ -101,3 +103,14 @@ rule "leaderboard test":
     eventPlayer.stopForcingButton(Button.CROUCH)
 
 
+rule "bots: custom action routine":
+    @Event eachPlayer
+    @Condition getTotalTimeElapsed() > 7
+    @Condition other_action 
+    @Condition leaderboard_test == false
+    @Condition bots_on
+    @Condition eventPlayer in testAI
+
+    delay_per_bot(0.5) # time space between each bot acting, to stagger them
+
+    eventPlayer.forceButtonPress(Button.PRIMARY_FIRE)
