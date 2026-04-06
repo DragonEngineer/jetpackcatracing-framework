@@ -62,7 +62,7 @@ rule "Effects Setup":
     )
 
 rule "remake leaderboard hud":
-    @Condition LeaderBoardRemake
+    @Condition LeaderboardRemake
     LeaderboardEntries = sorted(LeaderboardEntries, lambda i: i[1])
 
     while len(LeaderboardText) > 0: # delete previous board (because re-val is off)
@@ -70,7 +70,7 @@ rule "remake leaderboard hud":
         del LeaderboardText[0]
     
     if len(LeaderboardEntries) < 1:
-        LeaderBoardRemake = false
+        LeaderboardRemake = false
         return
 
     if LeaderboardEntries[0]:

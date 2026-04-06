@@ -11,7 +11,7 @@ rule "Init Global":
     wait(1)
     LeaderboardText = null
     LeaderboardEntries = []
-    LeaderBoardRemake = false
+    LeaderboardRemake = false
     setMatchTime(900)
 
     # setup variables

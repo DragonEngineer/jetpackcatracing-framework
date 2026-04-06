@@ -123,9 +123,9 @@ rule "Finish":
 
 def LeaderboardUpdate():
     # this sub just enabled the global board rule. you cant triger that sub directly from player becaues it would delete huds if player left.
-    LeaderBoardRemake = true
+    LeaderboardRemake = true
     wait(0.1)
-    LeaderBoardRemake = false # set false again to prevent board locking
+    LeaderboardRemake = false # set false again to prevent board locking
 
 
  

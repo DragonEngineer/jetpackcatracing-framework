@@ -18,7 +18,7 @@ globalvar TestBotArray
 
 globalvar LeaderboardText # txt entities
 globalvar LeaderboardEntries # # [ [name, time] ]
-globalvar LeaderBoardRemake # trigger remake leaderboard
+globalvar LeaderboardRemake # trigger remake leaderboard
 
 # Player variables
 
