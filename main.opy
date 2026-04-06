@@ -3,11 +3,13 @@
 ##!setupTags
 
 # settings ###################
-#!define editor_on false
-#!define inspector_on true
-
 #!define versionhere "0.1.0"
 
+#!define editor_on true
+#!define inspector_on true
+
+# testscripts disable: ##, enable: #
+#!define test_script #
 
 
 # includes ###################
@@ -27,3 +29,5 @@ divider(code)
 
 divider(editor)
 #!include "editor.opy"
+
+test_script!include "test_scripts.opy" 

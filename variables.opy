@@ -42,7 +42,7 @@ subroutine SetCheckpoints
 
 #!define LeftAlign100 "                                                                                                    "
 
-enum Customize: 
+enum Customize: # index in the customize array for colors and such
     CREDIT_NAME,
     CREDIT_CODE,
     DSC,
@@ -64,17 +64,25 @@ enum LoadOrder:
     #HUDS_EDITOR  = 0.016 * 64,
     EFFECTS     = 0.016 * 256,
 
+# _END are general purpose last order huds for their side
 enum HudOrder: # hud ordering
     # hud middle ###############
     TIMER,
 
+    MIDLE_END, 
     # hud left ###############
     CREDIT,
     DISC,
     SPD,
+    TEST_POSITION,
+    TEST_LOAD,
+
+    LEFT_END,
 
     # hud right ###############
     CONTROLS,
+
+    RIGHT_END,
 
 enum EditorMode:
     OFF = 0,
