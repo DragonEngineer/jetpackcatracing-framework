@@ -1,12 +1,11 @@
 
 #!optimizeStrict
-##!setupTags
 
 # settings ###################
 #!define VERSION "0.1.0"    
 
 #!define EDITOR_ON true
-#!define INSPECTOR_ON true
+#!define INSPECTOR_ON false
 
 # testscripts disable: ##, enable: #
 #!define test_script ##

@@ -54,7 +54,7 @@ rule "Effects Setup":
         IconReeval.VISIBILITY_AND_POSITION, ColorConfig[Customize.GOAL_COLOR], true
     )
 
-rule "remake leaderboard hud":
+rule "Remake Leaderboard HUD":
     @Condition LeaderboardRemake
     LeaderboardEntries = sorted(LeaderboardEntries, lambda i: i[1])
 
