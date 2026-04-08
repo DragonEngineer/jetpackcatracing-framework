@@ -141,7 +141,7 @@ rule "Editor HUD":
         HudPosition.TOP, 
         104, 
         Color.WHITE, 
-        HudReeval.VISIBILTY, 
+        HudReeval.VISIBILITY_STRING_AND_COLOR, 
         SpecVisibility.NEVER
     )
 
