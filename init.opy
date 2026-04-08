@@ -2,7 +2,7 @@
 
 
 rule "Init Global":
-    if not inspector_on:
+    if not INSPECTOR_ON:
         disableInspector()
     disableAnnouncer()
     disableGamemodeCompletion()
@@ -14,11 +14,10 @@ rule "Init Global":
     LeaderboardRemake = false
     setMatchTime(900)
 
-    # setup variables
-    wsEditorMode = createWorkshopSettingBool("Editor", "Editor Mode Enabled", editor_on, 0)
-    
-
-    # Checkpoints = []
+    wait(LoadOrder.SETUP)
+    wsEditorMode = createWorkshopSettingBool("Editor", "Editor Mode Enabled", EDITOR_ON, 0)
+    if Checkpoints == null:
+        Checkpoints = []
   
 
 
@@ -32,7 +31,10 @@ rule "Init Player":
     eventPlayer.disablePlayerCollision()
     eventPlayer.setAbility1Enabled(false)
     eventPlayer.setStatusEffect(null, Status.INVINCIBLE, 999999)
-    chaseAtRate(eventPlayer.Timer, 0, 1, ChaseRateReeval.NONE)
+    wait(LoadOrder.SETUP + 0.1)
+    if not wsEditorMode:
+        chaseAtRate(eventPlayer.Timer, 0, 1, ChaseRateReeval.NONE)
     eventPlayer.PersonalBest = null
     waitUntil(getTotalTimeElapsed() > 1, 1) # map variables need to load first
     FullReset()
+

@@ -3,10 +3,6 @@
 
 rule "HUD Setup":
     wait(LoadOrder.HUDS_GLOBAL)
-    # hudSubtext(getAllPlayers(), "\n", HudPosition.LEFT, 0, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
-    # hudSubtext(getAllPlayers(), "Hold {0} to restart".format(inputBindingString(Button.RELOAD)), HudPosition.RIGHT, 0, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
-    # hudSubtext(getAllPlayers(), "Hold {0} to change camera".format(inputBindingString(Button.INTERACT)), HudPosition.RIGHT, 0, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
-
 
     hudText(
         getAllPlayers(), 
@@ -41,9 +37,6 @@ rule "HUD Setup":
 
     hudSubtext(localPlayer, "\nSpeed: {}\nMultiplier: x{}{}".format(localPlayer.getSpeed(), localPlayer.SpeedMultiplier/100,LeftAlign100), HudPosition.LEFT, HudOrder.SPD, ColorConfig[Customize.SPD_COLOR], HudReeval.VISIBILITY_AND_STRING)
     
-    # checkpoint icon as text
-    #createInWorldText(localPlayer.filter(lambda _: localPlayer.GoalCheckpoint != 0), GoalText, localPlayer.GoalCheckpoint, 1, Clip.NONE, WorldTextReeval.VISIBILITY_AND_POSITION,  ColorConfig[Customize.GOAL_COLOR] , SpecVisibility.DEFAULT)
-
     hudSubheader(localPlayer if localPlayer.PersonalBest else null, "{} Personal best: {}".format(abilityIconString(Hero.JETPACK_CAT, Button.ABILITY_2) ,localPlayer.PersonalBest), HudPosition.RIGHT, HudOrder.PERSONAL_BEST, ColorConfig[Customize.PERSONAL_BEST], HudReeval.VISIBILITY_SORT_ORDER_STRING_AND_COLOR, SpecVisibility.DEFAULT)
 
 
@@ -148,14 +141,14 @@ rule "Editor HUD":
         HudPosition.TOP, 
         104, 
         Color.WHITE, 
-        HudReeval.VISIBILITY_STRING_AND_COLOR, 
+        HudReeval.VISIBILTY, 
         SpecVisibility.NEVER
     )
 
     hudSubtext(
         hostPlayer, 
-        f"Hold {inputBindingString(Button.INTERACT)}: To Enable Editor Mode\n",
-        HudPosition.RIGHT, HudOrder.CONTROLS + 10, ColorConfig[Customize.CONTROL_HUD_1] , HudReeval.VISIBILITY_AND_STRING
+        f"Hold {inputBindingString(Button.INTERACT)}: To Enable Editor Mode\nHold {inputBindingString(Button.INTERACT)} & {inputBindingString(Button.ULTIMATE)}: To Export Data",
+        HudPosition.RIGHT, HudOrder.CONTROLS + 10, ColorConfig[Customize.CONTROL_HUD_1] , HudReeval.VISIBILITY
     )
 
     

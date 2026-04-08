@@ -4,10 +4,13 @@ rule "Editor | Enable Checkpoint Selection":
     @Event eachPlayer
     @Condition wsEditorMode
     @Condition eventPlayer == hostPlayer
-    @Condition eventPlayer.isHoldingButton(Button.INTERACT)
+    @Condition eventPlayer.isHoldingButton(Button.INTERACT) and not eventPlayer.isHoldingButton(Button.ULTIMATE)
     wait(0.5, Wait.ABORT_WHEN_FALSE)
-    if not Checkpoints:
-        Checkpoints = [vect(10, 10, 10)]
+    if Checkpoints == false:
+        Checkpoints[0] = eventPlayer.getPosition()
+        eventPlayer.CurrentCheckpointIdx = 0
+        SetCheckpoints()
+
     eventPlayer.EditorMode = EditorMode.MOVE if eventPlayer.EditorMode == EditorMode.OFF else EditorMode.OFF
     if eventPlayer.EditorMode:
         smallMessage(hostPlayer, "   Checkpoint Selection Enabled")
@@ -15,6 +18,25 @@ rule "Editor | Enable Checkpoint Selection":
     else:
         smallMessage(hostPlayer, "   Checkpoint Selection Disabled")
         StopEditorCamera()
+
+
+rule "Editor | Export Data":
+    @Event eachPlayer
+    @Condition wsEditorMode
+    @Condition eventPlayer == hostPlayer
+    @Condition eventPlayer.isHoldingButton(Button.INTERACT) and eventPlayer.isHoldingButton(Button.ULTIMATE)
+    wait(0.5, Wait.ABORT_WHEN_FALSE)
+
+    wsEditorMode = null    
+    LeaderboardText = null
+    LeaderboardEntries = null
+    LeaderboardRemake = null
+    ColorConfig = null
+    enableInspector()
+    disableInspector()
+    smallMessage(hostPlayer, "   Map Data Exported - Check Inspector")
+
+    wsEditorMode = true
 
 
 rule "Editor | Select Checkpoint & Mode":
