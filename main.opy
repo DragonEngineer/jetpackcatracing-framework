@@ -5,7 +5,7 @@
 #!define VERSION "0.1.0"    
 
 #!define EDITOR_ON true
-#!define INSPECTOR_ON false
+#!define INSPECTOR_ON true
 
 # testscripts disable: ##, enable: #
 #!define test_script ##
