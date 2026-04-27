@@ -22,7 +22,7 @@ def GoToResetPoint(): # go to CurrentCheckpoint
     eventPlayer.teleport(eventPlayer.CurrentCheckpoint)
     eventPlayer.startForcingPosition(eventPlayer.CurrentCheckpoint)
     wait()
-    if not eventPlayer.EditorMode:
+    if not eventPlayer.CurrentEditorMode:
         eventPlayer.setFacing(directionTowards(eventPlayer.getEyePosition(),  eventPlayer.GoalCheckpoint), Relativity.TO_WORLD)
     eventPlayer.stopForcingPosition()
 
@@ -45,7 +45,7 @@ def FullReset():
     GoToResetPoint() # CurrentCheckpoint is first reset so this works
     ResetSpeed()
 
-    waitUntil(eventPlayer.isMoving() and not eventPlayer.EditorMode, 99999)
+    waitUntil(eventPlayer.isMoving() and not eventPlayer.CurrentEditorMode, 99999)
     chaseAtRate(eventPlayer.Timer, Math.INFINITY, 1)
     eventPlayer.IsRacing = true
     
@@ -67,7 +67,7 @@ rule "Arrive at Checkpoint":
     @Event eachPlayer
     @Condition distance(eventPlayer.GoalCheckpoint, eventPlayer.getEyePosition()) <= RingSize #2.65
     @Condition eventPlayer.isAlive() and eventPlayer.IsRacing
-    @Condition not eventPlayer.EditorMode
+    @Condition not eventPlayer.CurrentEditorMode
     @Condition len(Checkpoints) > 1
     # TODO: Separate starting the level vs arriving at a checkpoint IN the level?
     playEffect(eventPlayer, DynamicEffect.BUFF_EXPLOSION_SOUND, Color.WHITE, eventPlayer.getEyePosition(), 100)
@@ -80,7 +80,7 @@ rule "Arrive at Checkpoint":
 
 rule "Finish":
     @Event eachPlayer
-    @Condition not eventPlayer.GoalCheckpoint and not eventPlayer.EditorMode
+    @Condition not eventPlayer.GoalCheckpoint and not eventPlayer.CurrentEditorMode
     @Condition len(Checkpoints) > 1
     @Condition eventPlayer.CurrentCheckpointIdx == len(Checkpoints) - 1 
     @Condition eventPlayer.isAlive()
@@ -147,7 +147,7 @@ def LeaderboardUpdate():
 rule "Addon | Little Destructo - Fence Breaker":
     # Made by FishoFire version 1.0
     # wait to overwrite any from copy pastas
-	wait(LoadOrder.DESTRUCTO)
+	wait(ELoadOrder.DESTRUCTO)
     # first entry will act as index, rest is the points themselves
     MapVectorArray = [0]
     # flag mode = both flag points, just incase

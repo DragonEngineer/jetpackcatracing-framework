@@ -3,16 +3,17 @@
 rule "Editor | Enable Checkpoint Selection":
     @Event eachPlayer
     @Condition eventPlayer == hostPlayer
-    @Condition hostPlayer.wsEditorOn
+    @Condition hostPlayer.WsEditorOn
     @Condition eventPlayer.isHoldingButton(Button.INTERACT) and not eventPlayer.isHoldingButton(Button.ULTIMATE)
-    wait(0.5, Wait.ABORT_WHEN_FALSE)
+    
+	wait(0.5, Wait.ABORT_WHEN_FALSE)
     if Checkpoints == false:
         Checkpoints[0] = eventPlayer.getPosition()
         eventPlayer.CurrentCheckpointIdx = 0
         SetCheckpoints()
 
-    eventPlayer.EditorMode = EditorMode.MOVE if eventPlayer.EditorMode == EditorMode.OFF else EditorMode.OFF
-    if eventPlayer.EditorMode:
+    eventPlayer.CurrentEditorMode = EEditorMode.MOVE if eventPlayer.CurrentEditorMode == EEditorMode.OFF else EEditorMode.OFF
+    if eventPlayer.CurrentEditorMode > EEditorMode.OFF:
         smallMessage(hostPlayer, "   Checkpoint Selection Enabled")
         StartEditorCamera()
     else:
@@ -23,11 +24,11 @@ rule "Editor | Enable Checkpoint Selection":
 rule "Editor | Export Data":
     @Event eachPlayer
     @Condition eventPlayer == hostPlayer
-    @Condition hostPlayer.wsEditorOn
+    @Condition hostPlayer.WsEditorOn
     @Condition eventPlayer.isHoldingButton(Button.INTERACT) and eventPlayer.isHoldingButton(Button.ULTIMATE)
     wait(0.5, Wait.ABORT_WHEN_FALSE)
 
-    hostPlayer.wsEditorOn = null    
+    hostPlayer.WsEditorOn = null    
     LeaderboardText = null
     LeaderboardEntries = null
     LeaderboardRemake = null
@@ -36,58 +37,60 @@ rule "Editor | Export Data":
     disableInspector()
     smallMessage(hostPlayer, "   Map Data Exported - Check Inspector")
 
-    hostPlayer.wsEditorOn = true
+    hostPlayer.WsEditorOn = true
 
 
 rule "Editor | Select Checkpoint & Mode":
     @Event eachPlayer
     @Condition eventPlayer == hostPlayer
-    @Condition hostPlayer.wsEditorOn
+    @Condition hostPlayer.WsEditorOn
+	@Condition eventPlayer.CurrentEditorMode > EEditorMode.OFF
+	@Condition not eventPlayer.ActivelyEditing
     @Condition (
-        eventPlayer.EditorMode > EditorMode.OFF and not eventPlayer.ActivelyEditing and (
             eventPlayer.getThrottle().z > 0.5 or eventPlayer.getThrottle().z < -0.5 or 
             eventPlayer.getThrottle().x > 0.5 or eventPlayer.getThrottle().x < -0.5
         )
-    )
 
     if eventPlayer.getThrottle().z > 0.5:
         eventPlayer.CurrentCheckpointIdx += 1
         if eventPlayer.CurrentCheckpointIdx >= len(Checkpoints):
             eventPlayer.CurrentCheckpointIdx = 0
-        wait(0.1)
-        waitUntil(eventPlayer.getThrottle().z < 0.5, 0.1)
+        # wait(0.1)
+        # waitUntil(eventPlayer.getThrottle().z < 0.5, 0.1)
 
     elif eventPlayer.getThrottle().z < -0.5:
         eventPlayer.CurrentCheckpointIdx -= 1
         if eventPlayer.CurrentCheckpointIdx < 0:
             eventPlayer.CurrentCheckpointIdx = len(Checkpoints) - 1
-        wait(0.1)
-        waitUntil(eventPlayer.getThrottle().z > -0.5, 0.1)
+        # wait(0.1)
+        # waitUntil(eventPlayer.getThrottle().z > -0.5, 0.1)
     
     elif eventPlayer.getThrottle().x > 0.5:
-        eventPlayer.EditorMode += 1
-        if eventPlayer.EditorMode >= len(EditorMode):
-            eventPlayer.EditorMode = 2
-        wait(0.1)
-        waitUntil(eventPlayer.getThrottle().x < 0.5, 0.1)
+        eventPlayer.CurrentEditorMode += 1
+        if eventPlayer.CurrentEditorMode >= len(EEditorMode):
+            eventPlayer.CurrentEditorMode = EEditorMode.MOVE
+        # wait(0.1)
+        # waitUntil(eventPlayer.getThrottle().x < 0.5, 0.1)
 
     elif eventPlayer.getThrottle().x < -0.5:
-        eventPlayer.EditorMode -= 1
-        if eventPlayer.EditorMode < 2:
-            eventPlayer.EditorMode = len(EditorMode) - 1
-        wait(0.1)
-        waitUntil(eventPlayer.getThrottle().x > -0.5, 0.1)
+        eventPlayer.CurrentEditorMode -= 1
+        if eventPlayer.CurrentEditorMode < EEditorMode.MOVE:
+            eventPlayer.CurrentEditorMode = len(EEditorMode) - 1
+        # wait(0.1)
+        # waitUntil(eventPlayer.getThrottle().x > -0.5, 0.1)
     
     SetCheckpoints()
-    wait(0)
-    if ruleCondition:
-        loop()
+    # wait(0)
+    # if ruleCondition:
+    #     loop()
 
 rule "Editor | Enable Checkpoint Edit":
     @Event eachPlayer
     @Condition eventPlayer == hostPlayer
-    @Condition hostPlayer.wsEditorOn
-    @Condition eventPlayer.EditorMode == EditorMode.MOVE and eventPlayer.isHoldingButton(Button.MELEE)
+    @Condition hostPlayer.WsEditorOn
+    @Condition eventPlayer.CurrentEditorMode == EEditorMode.MOVE
+	@Condition eventPlayer.isHoldingButton(Button.MELEE)
+
     wait(0.5, Wait.ABORT_WHEN_FALSE)
     eventPlayer.ActivelyEditing = not eventPlayer.ActivelyEditing
     if eventPlayer.ActivelyEditing:
@@ -107,8 +110,9 @@ rule "Editor | Enable Checkpoint Edit":
 rule "Editor | Start Editing Position":
     @Event eachPlayer
     @Condition eventPlayer == hostPlayer
-    @Condition hostPlayer.wsEditorOn
-    @Condition eventPlayer.EditorMode == EditorMode.MOVE and eventPlayer.ActivelyEditing
+    @Condition hostPlayer.WsEditorOn
+    @Condition eventPlayer.CurrentEditorMode == EEditorMode.MOVE
+	@Condition eventPlayer.ActivelyEditing
     # @Condition hostPlayer.isHoldingButton(Button.MELEE)
 
     waitUntil(not hostPlayer.isHoldingButton(Button.MELEE), Math.INFINITY)
@@ -120,8 +124,9 @@ rule "Editor | Start Editing Position":
 rule "Editor | Remove Checkpoint":
     @Event eachPlayer
     @Condition eventPlayer == hostPlayer
-    @Condition hostPlayer.wsEditorOn
-    @Condition eventPlayer.EditorMode == EditorMode.REMOVE and eventPlayer.isHoldingButton(Button.MELEE)
+    @Condition hostPlayer.WsEditorOn
+    @Condition eventPlayer.CurrentEditorMode == EEditorMode.REMOVE
+	@Condition eventPlayer.isHoldingButton(Button.MELEE)
 
     smallMessage(hostPlayer, "   Checkpoint Removed")
     del Checkpoints[eventPlayer.CurrentCheckpointIdx]
@@ -130,14 +135,16 @@ rule "Editor | Remove Checkpoint":
 
 rule "Editor | Insert Checkpoint (After Current Checkpoint)":
     @Event eachPlayer
-    @Condition hostPlayer.wsEditorOn
+    @Condition hostPlayer.WsEditorOn
     @Condition eventPlayer == hostPlayer
-    @Condition eventPlayer.EditorMode == EditorMode.INSERT and eventPlayer.isHoldingButton(Button.MELEE)
-    smallMessage(hostPlayer, "   Checkpoint Inserted")
+    @Condition eventPlayer.CurrentEditorMode == EEditorMode.INSERT
+	@Condition eventPlayer.isHoldingButton(Button.MELEE)
+    
+	smallMessage(hostPlayer, "   Checkpoint Inserted")
     Checkpoints.insertAt(eventPlayer.CurrentCheckpointIdx, Checkpoints[eventPlayer.CurrentCheckpointIdx])
     eventPlayer.CurrentCheckpointIdx += 1
     SetCheckpoints()
-    eventPlayer.EditorMode = EditorMode.MOVE
+    eventPlayer.CurrentEditorMode = EEditorMode.MOVE
     eventPlayer.ActivelyEditing = true
     StartEditorCamera2()
     eventPlayer.EditCheckpointTemp = Checkpoints[eventPlayer.CurrentCheckpointIdx]

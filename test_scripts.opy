@@ -32,7 +32,7 @@ rule "test huds":
             localPlayer.getThrottle(),
             LeftAlign100
         ), 
-        HudPosition.LEFT, HudOrder.TEST_POSITION , Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT
+        HudPosition.LEFT, EHudOrder.TEST_POSITION , Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT
     )
 
     # load hud
@@ -48,7 +48,7 @@ rule "test huds":
             getPeakServerLoad(),
             LeftAlign100
         ),
-        HudPosition.LEFT, HudOrder.TEST_LOAD,
+        HudPosition.LEFT, EHudOrder.TEST_LOAD,
         Color.RED if getAverageServerLoad() > 220 else
         Color.ORANGE if getAverageServerLoad() > 190 else
         Color.YELLOW if getAverageServerLoad() > 160  else

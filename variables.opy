@@ -25,8 +25,8 @@ globalvar TestBotArray 126
 
 # Player variables
 
-playervar wsEditorOn
-playervar EditorMode
+playervar WsEditorOn
+playervar CurrentEditorMode
 playervar Timer
 playervar PersonalBest
 playervar IsRacing
@@ -53,7 +53,7 @@ subroutine LeaderboardUpdate
 
 #!define LeftAlign100 "                                                                                                    "
 
-enum Customize: # index in the customize array for colors and such
+enum ECustomize: # index in the customize array for colors and such
     CREDIT_NAME,
     CREDIT_CODE,
     DSC,
@@ -65,7 +65,7 @@ enum Customize: # index in the customize array for colors and such
     SPD_COLOR,
     PERSONAL_BEST,
 
-enum LoadOrder:
+enum ELoadOrder:
     MAP_DATA     = -1,
     CUSTOMIZE   = 0,
     DESTRUCTO   = 0.016 * 2,
@@ -77,7 +77,7 @@ enum LoadOrder:
     EFFECTS     = 0.016 * 256,
 
 # _END are general purpose last order huds for their side
-enum HudOrder: # hud ordering
+enum EHudOrder: # hud ordering
     # hud middle ###############
     TIMER,
 
@@ -98,7 +98,7 @@ enum HudOrder: # hud ordering
 
     RIGHT_END,
 
-enum EditorMode:
+enum EEditorMode:
     OFF = 0,
     ON = 1,
     MOVE = 2,

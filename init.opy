@@ -14,7 +14,7 @@ rule "Init Global":
     LeaderboardRemake = false
     setMatchTime(900)
 
-    wait(LoadOrder.SETUP)
+    wait(ELoadOrder.SETUP)
     
     if Checkpoints == null:
         Checkpoints = []
@@ -24,7 +24,7 @@ rule "Init Global":
 rule "Init Player":
     @Event playerJoined
     @Condition eventPlayer.isDummy() == false or eventPlayer in TestBotArray
-    eventPlayer.wsEditorOn = createWorkshopSettingBool("Editor", "Editor Mode Enabled", EDITOR_ON, 0)
+    eventPlayer.WsEditorOn = createWorkshopSettingBool("Editor", "Editor Mode Enabled", EDITOR_ON, 0)
     
 	eventPlayer.disableKillFeed()
     eventPlayer.disableGamemodeHud()
@@ -36,9 +36,9 @@ rule "Init Player":
     
 	eventPlayer.GoalCheckpoint = vect(0,-100,0)
 	
-	wait(LoadOrder.SETUP + 0.1)
+	wait(ELoadOrder.SETUP + 0.1)
 	
-	if not eventPlayer.wsEditorOn:
+	if not eventPlayer.WsEditorOn:
         chaseAtRate(eventPlayer.Timer, 0, 1, ChaseRateReeval.NONE)
     eventPlayer.PersonalBest = null
     waitUntil(getTotalTimeElapsed() > 1, 1) # map variables need to load first
