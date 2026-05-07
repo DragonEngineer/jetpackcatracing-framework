@@ -16,8 +16,7 @@ rule "Init Global":
 
     wait(ELoadOrder.SETUP)
     
-    if Checkpoints == null:
-        Checkpoints = []
+    Checkpoints = []
   
 
 

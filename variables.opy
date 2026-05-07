@@ -38,6 +38,7 @@ playervar CurrentCheckpoint
 playervar ActivelyEditing
 playervar EditCheckpointEffect
 playervar EditCheckpointTemp
+playervar EditMeleeButtonPressed
 
 # Subroutines
 subroutine FullReset

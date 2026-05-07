@@ -28,7 +28,7 @@ rule "HUD Setup":
     hudText(
         localPlayer, 
         iconString(Icon.ARROW_RIGHT) if localPlayer.IsRacing else iconString(Icon.FLAG) if localPlayer.CurrentCheckpointIdx == 0 else  iconString(Icon.CHECKMARK) , 
-        "{} / {}".format(localPlayer.CurrentCheckpointIdx,len(Checkpoints)-1), 
+        "{} / {}".format(localPlayer.CurrentCheckpointIdx, len(Checkpoints)-1), 
         "Time: {}".format(localPlayer.Timer), 
         HudPosition.TOP, EHudOrder.TIMER,
         ColorConfig[ECustomize.PLAYER_TIME], ColorConfig[ECustomize.PLAYER_TIME], ColorConfig[ECustomize.PLAYER_TIME], 
