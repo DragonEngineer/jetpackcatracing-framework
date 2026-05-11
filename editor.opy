@@ -4,6 +4,7 @@ rule "Editor | Enable Checkpoint Selection":
     @Event eachPlayer
     @Condition eventPlayer == hostPlayer
     @Condition hostPlayer.WsEditorOn
+	@Condition not eventPlayer.ShouldShowExportInstructions
     @Condition eventPlayer.isHoldingButton(Button.INTERACT)
 	@Condition not eventPlayer.isHoldingButton(Button.ULTIMATE)
     
@@ -35,22 +36,40 @@ rule "Editor | Export Data":
     @Event eachPlayer
     @Condition eventPlayer == hostPlayer
     @Condition hostPlayer.WsEditorOn
+	@Condition eventPlayer.CurrentEditorMode == EEditorMode.OFF 
     @Condition eventPlayer.isHoldingButton(Button.INTERACT)
 	@Condition eventPlayer.isHoldingButton(Button.ULTIMATE)
+	@Condition not eventPlayer.ShouldShowExportInstructions
 	
     wait(0.5, Wait.ABORT_WHEN_FALSE)
     enableInspector()
 	smallMessage(hostPlayer, "   Map Data Exporting...")
 	playEffect(hostPlayer, DynamicEffect.BUFF_IMPACT_SOUND, Color.WHITE, hostPlayer.getPosition(), 100)
-	wait(1)
+	eventPlayer.ShouldShowExportInstructions = true
+	wait(0.5)
     LeaderboardText = null
     LeaderboardEntries = null
     LeaderboardRemake = null
     ColorConfig = null
+	CreatorName = null
+	MapCode = null
 	wait(2)
     disableInspector()
     smallMessage(hostPlayer, "   Map Data Exported - Check Inspector")
 	playEffect(hostPlayer, DynamicEffect.BUFF_IMPACT_SOUND, Color.WHITE, hostPlayer.getPosition(), 100)
+	
+
+
+rule "Editor | Hide Export instruction":
+	@Event eachPlayer
+    @Condition eventPlayer == hostPlayer
+    @Condition hostPlayer.WsEditorOn
+    @Condition eventPlayer.isHoldingButton(Button.MELEE)
+	@Condition eventPlayer.ShouldShowExportInstructions
+	@Condition not eventPlayer.EditMeleeButtonPressed
+
+	eventPlayer.ShouldShowExportInstructions = false
+	playEffect(eventPlayer, DynamicEffect.RING_EXPLOSION_SOUND, Color.WHITE, eventPlayer.getPosition(), 100)
 
 
 

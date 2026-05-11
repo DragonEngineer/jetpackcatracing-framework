@@ -40,6 +40,7 @@ playervar EditCheckpointEffect
 playervar EditCheckpointTemp
 playervar EditMeleeButtonPressed
 playervar IsMovingCheckpoint
+playervar ShouldShowExportInstructions
 
 # Subroutines
 subroutine FullReset

@@ -91,6 +91,7 @@ rule "Remake Leaderboard HUD":
 rule "Editor HUD":
     @Condition hostPlayer.WsEditorOn
     
+	# Current mode Top HUD
     hudHeader(
         hostPlayer if localPlayer.CurrentEditorMode > EEditorMode.OFF else null,
         f"{'N/A' if localPlayer.CurrentEditorMode == EEditorMode.ON else 'Move Mode' if localPlayer.CurrentEditorMode == EEditorMode.MOVE else 'Insert Mode' if localPlayer.CurrentEditorMode == EEditorMode.INSERT else 'Remove Mode'}",
@@ -100,6 +101,8 @@ rule "Editor HUD":
         HudReeval.VISIBILITY_STRING_AND_COLOR, 
         SpecVisibility.NEVER
     )
+
+	# Next checkpoint HUD
     hudSubtext(
         hostPlayer if localPlayer.CurrentEditorMode > EEditorMode.OFF else null,
         f"\n\n\n\n\n\n        FORWARD\nNEXT CHECKPOINT",
@@ -109,6 +112,8 @@ rule "Editor HUD":
         HudReeval.VISIBILITY_STRING_AND_COLOR, 
         SpecVisibility.NEVER
     )
+
+	# Previous/Next mode button
     hudSubtext(
         hostPlayer if localPlayer.CurrentEditorMode > EEditorMode.OFF else null,
         f"\n\n\n\n\n\n\n\n<<< {'Move Mode' if (localPlayer.CurrentEditorMode + 1 if localPlayer.CurrentEditorMode < len(EEditorMode) - 1 else 2) == EEditorMode.MOVE else 'Insert Mode' if (localPlayer.CurrentEditorMode + 1 if localPlayer.CurrentEditorMode < len(EEditorMode) - 1 else 2) == EEditorMode.INSERT else 'Remove Mode'}                                                                             {'Move Checkpoint' if (localPlayer.CurrentEditorMode - 1 if localPlayer.CurrentEditorMode > 2 else len(EEditorMode) - 1) == EEditorMode.MOVE else 'Insert Checkpoint' if (localPlayer.CurrentEditorMode - 1 if localPlayer.CurrentEditorMode > 2 else len(EEditorMode) - 1) == EEditorMode.INSERT else 'Remove Checkpoint'} >>>",
@@ -118,22 +123,28 @@ rule "Editor HUD":
         HudReeval.VISIBILITY_STRING_AND_COLOR, 
         SpecVisibility.NEVER
     )
+
+	# Press interact to open editor for if there's no checkpoints
 	hudSubtext(
-        hostPlayer if len(Checkpoints) == 0 else null,
+        hostPlayer if len(Checkpoints) == 0 and not hostPlayer.ShouldShowExportInstructions else null,
         "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nPress [{0}] to set the first checkpoint and open the editor".format(inputBindingString(Button.INTERACT)),        HudPosition.TOP,
         103,
         Color.WHITE, 
         HudReeval.VISIBILITY_STRING_AND_COLOR,
         SpecVisibility.NEVER
     )
+
+	# Press interact to open editor
     hudSubtext(
-        hostPlayer if len(Checkpoints) > 0 else null,
+        hostPlayer if len(Checkpoints) > 0 and not hostPlayer.ShouldShowExportInstructions else null,
         "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nEnable Editor: Press [{0}]".format(inputBindingString(Button.INTERACT)) if localPlayer.CurrentEditorMode <= EEditorMode.OFF else (f"Disable Editor: Press [{inputBindingString(Button.INTERACT)}]" if not localPlayer.IsMovingCheckpoint else f"Cancel Move: Press [{inputBindingString(Button.INTERACT)}]" ),        HudPosition.TOP,
         103,
         Color.WHITE, 
         HudReeval.VISIBILITY_STRING_AND_COLOR,
         SpecVisibility.NEVER
     )
+
+	# Save buttons (Melee)
     hudSubtext(
         hostPlayer if localPlayer.CurrentEditorMode > EEditorMode.OFF else null,
         f"\n\n\n\n                                                                              Save: [{inputBindingString(Button.MELEE)}]" if localPlayer.CurrentEditorMode == EEditorMode.MOVE and localPlayer.ActivelyEditing else f"\n\n\n\n                                                                              Move: [{inputBindingString(Button.MELEE)}]" if localPlayer.CurrentEditorMode == EEditorMode.MOVE else f"\n\n\n\n                                                                              Insert: [{inputBindingString(Button.MELEE)}]" if localPlayer.CurrentEditorMode == EEditorMode.INSERT else f"\n\n\n\n                                                                              Remove: [{inputBindingString(Button.MELEE)}]",
@@ -143,6 +154,8 @@ rule "Editor HUD":
         HudReeval.VISIBILITY_STRING_AND_COLOR,
         SpecVisibility.NEVER
     )
+
+	# Previous checkpoint 
     hudSubtext(
         hostPlayer if localPlayer.CurrentEditorMode > EEditorMode.OFF else null,
         f"\n         BACKWARDS\nPREVIOUS CHECKPOINT",
@@ -153,10 +166,47 @@ rule "Editor HUD":
         SpecVisibility.NEVER
     )
 
+	# Editor mode and export buttons
     hudSubtext(
-        hostPlayer, 
+        hostPlayer if localPlayer.CurrentEditorMode == EEditorMode.OFF else null, 
         f"Hold [{inputBindingString(Button.INTERACT)}]: To Enable Editor Mode\nHold [{inputBindingString(Button.INTERACT)} + {inputBindingString(Button.ULTIMATE)}]: To Export Data",
         HudPosition.RIGHT, EHudOrder.CONTROLS + 10, ColorConfig[ECustomize.CONTROL_HUD_1] , HudReeval.VISIBILITY_AND_STRING
     )
 
-    
+    # Export instruction
+	hudText(hostPlayer if hostPlayer.ShouldShowExportInstructions else null, 
+		" ", 
+		" 0. Clear Extra Data:\n"
+        "   Already Done Upon Opening This Window\n\n"
+
+        " 1. Copy Data:\n"
+        "   Open Workshop Inspector → Set Variable Target To Global\n"
+        "   Click The [(X)] button\n\n"
+
+        " 2. Insert Data:\n"
+        "   Paste The Data Into Rule Named 'Map Data <---- Insert Here'\n" 
+		"   in the workshop editor\n\n"
+
+        " 3. Workshop Settings:\n"
+        "   Esc → Show Lobby → Settings → Workshop Settings →\n"
+        "   Toggle 'Editor Mode Enabled' to 'Off'\n\n"
+
+        " 4. Create Initial Sharecode:\n"
+        "   Esc → Show Lobby → Settings → Share Code →\n"
+        "   Create New Code → Copy Code\n\n"
+
+        " 5. Add Credits:\n"
+        "   Enter Your Name & Map Code In The 'Customize Credits and\n"
+		"   Colors Here' Rule in the workshop editor\n\n"
+
+        " 6. Update For Credits:\n"
+        "   Esc → Show Lobby → Settings → Share Code →\n"
+        "   Upload To Existing Code → Paste The Code You Created In Step 4\n", 
+		" Press [{0}] to hide this text".format(buttonString(Button.MELEE)), 
+		HudPosition.TOP, 
+		103, 
+		Color.YELLOW, 
+		Color.WHITE, 
+		Color.LIME_GREEN, 
+		HudReeval.VISIBILITY_AND_STRING, 
+		SpecVisibility.NEVER)
