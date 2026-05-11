@@ -17,8 +17,8 @@ rule "HUD Setup":
         HudPosition.LEFT, EHudOrder.DISC, ColorConfig[ECustomize.DSC], HudReeval.VISIBILITY, SpecVisibility.DEFAULT)
 
     hudSubtext(getAllPlayers(), 
-        "Press {0}: reset\n"
-        "Hold {0}: full restart\n"
+        "Press [{0}]: reset\n"
+        "Hold [{0}]: full restart\n"
         "".format(
         inputBindingString(Button.RELOAD)
         ), 
@@ -118,9 +118,17 @@ rule "Editor HUD":
         HudReeval.VISIBILITY_STRING_AND_COLOR, 
         SpecVisibility.NEVER
     )
+	hudSubtext(
+        hostPlayer if len(Checkpoints) == 0 else null,
+        "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nPress [{0}] to set the first checkpoint and open the editor".format(inputBindingString(Button.INTERACT)),        HudPosition.TOP,
+        103,
+        Color.WHITE, 
+        HudReeval.VISIBILITY_STRING_AND_COLOR,
+        SpecVisibility.NEVER
+    )
     hudSubtext(
-        hostPlayer,
-        f"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nEnable Editor: Press {inputBindingString(Button.INTERACT)}" if localPlayer.CurrentEditorMode <= EEditorMode.OFF else (f"Disable Editor: Press {inputBindingString(Button.INTERACT)}" if not localPlayer.IsMovingCheckpoint else f"Cancel Move: Press {inputBindingString(Button.INTERACT)}" ),        HudPosition.TOP,
+        hostPlayer if len(Checkpoints) > 0 else null,
+        "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nEnable Editor: Press [{0}]".format(inputBindingString(Button.INTERACT)) if localPlayer.CurrentEditorMode <= EEditorMode.OFF else (f"Disable Editor: Press [{inputBindingString(Button.INTERACT)}]" if not localPlayer.IsMovingCheckpoint else f"Cancel Move: Press [{inputBindingString(Button.INTERACT)}]" ),        HudPosition.TOP,
         103,
         Color.WHITE, 
         HudReeval.VISIBILITY_STRING_AND_COLOR,
@@ -128,7 +136,7 @@ rule "Editor HUD":
     )
     hudSubtext(
         hostPlayer if localPlayer.CurrentEditorMode > EEditorMode.OFF else null,
-        f"\n\n\n\n                                                                              Save: {inputBindingString(Button.MELEE)}" if localPlayer.CurrentEditorMode == EEditorMode.MOVE and localPlayer.ActivelyEditing else f"\n\n\n\n                                                                              Move: {inputBindingString(Button.MELEE)}" if localPlayer.CurrentEditorMode == EEditorMode.MOVE else f"\n\n\n\n                                                                              Insert: {inputBindingString(Button.MELEE)}" if localPlayer.CurrentEditorMode == EEditorMode.INSERT else f"\n\n\n\n                                                                              Remove: {inputBindingString(Button.MELEE)}",
+        f"\n\n\n\n                                                                              Save: [{inputBindingString(Button.MELEE)}]" if localPlayer.CurrentEditorMode == EEditorMode.MOVE and localPlayer.ActivelyEditing else f"\n\n\n\n                                                                              Move: [{inputBindingString(Button.MELEE)}]" if localPlayer.CurrentEditorMode == EEditorMode.MOVE else f"\n\n\n\n                                                                              Insert: [{inputBindingString(Button.MELEE)}]" if localPlayer.CurrentEditorMode == EEditorMode.INSERT else f"\n\n\n\n                                                                              Remove: [{inputBindingString(Button.MELEE)}]",
         HudPosition.TOP,
         103,
         Color.WHITE, 
@@ -147,7 +155,7 @@ rule "Editor HUD":
 
     hudSubtext(
         hostPlayer, 
-        f"Hold {inputBindingString(Button.INTERACT)}: To Enable Editor Mode\nHold {inputBindingString(Button.INTERACT)} & {inputBindingString(Button.ULTIMATE)}: To Export Data",
+        f"Hold [{inputBindingString(Button.INTERACT)}]: To Enable Editor Mode\nHold [{inputBindingString(Button.INTERACT)} + {inputBindingString(Button.ULTIMATE)}]: To Export Data",
         HudPosition.RIGHT, EHudOrder.CONTROLS + 10, ColorConfig[ECustomize.CONTROL_HUD_1] , HudReeval.VISIBILITY_AND_STRING
     )
 

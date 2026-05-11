@@ -53,8 +53,8 @@ def FullReset():
 
     waitUntil(eventPlayer.isMoving() and not eventPlayer.CurrentEditorMode, 99999)
 
-	if not eventPlayer.WsEditorOn:
-    	chaseAtRate(eventPlayer.Timer, Math.INFINITY, 1)
+	if len(Checkpoints) > 0:
+		chaseAtRate(eventPlayer.Timer, Math.INFINITY, 1)
     
 	eventPlayer.IsRacing = true
     
@@ -90,6 +90,7 @@ rule "Arrive at Checkpoint":
 
 rule "Finish":
     @Event eachPlayer
+	
     @Condition eventPlayer.GoalCheckpoint == null
 	@Condition eventPlayer.CurrentEditorMode == EEditorMode.OFF
     @Condition len(Checkpoints) > 1
@@ -98,6 +99,10 @@ rule "Finish":
     
     eventPlayer.IsRacing = false
     stopChasingVariable(eventPlayer.Timer)
+
+	# Don't record leaderboard times
+	if eventPlayer.WsEditorOn:
+		return
 
     # new top 5 if faster or entry doesnt exist yet    
     if (

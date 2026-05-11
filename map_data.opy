@@ -5,9 +5,8 @@ rule "Map Data - Example":
     @Condition getCurrentMap() == Map.HANAMURA
     @Delimiter
 
+	# Checkpoints = [vect(66.293, 0.681, 13.266), vect(51.871, 0.474, 12.835), vect(38.727, 0.789, 10.979), vect(34.831, 1.206, 2.953), vect(28.592, 1.641, -4.084)]
+	# RingSize = 2.5
+	# CreatorName = "DragonEngineer"
+	# MapCode = "ABCDE"
 
-rule "After 3s if the checkpoints are empty then provide a warning":
-	@Condition len(Checkpoints) == 0
-
-	wait(3, Wait.ABORT_WHEN_FALSE)
-	hudHeader(null if localPlayer == hostPlayer and hostPlayer.WsEditorOn else localPlayer, " {0} Warning: Map has no data ".format(iconString(Icon.WARNING)), HudPosition.TOP, 5, Color.RED, HudReeval.VISIBILITY, SpecVisibility.DEFAULT)

@@ -20,7 +20,7 @@ rule "Editor | Enable Checkpoint Selection":
 	# If in move mode, cancel the move
     if eventPlayer.CurrentEditorMode > EEditorMode.OFF and not eventPlayer.IsMovingCheckpoint:
         smallMessage(hostPlayer, "   Checkpoint Selection Enabled")
-		playEffect(hostPlayer, DynamicEffect.BUFF_EXPLOSION_SOUND, Color.WHITE, hostPlayer.getPosition(), 100)
+		playEffect(hostPlayer, DynamicEffect.BUFF_EXPLOSION_SOUND, Color.WHITE, Checkpoints[hostPlayer.CurrentCheckpointIdx], 100)
         StartEditorCamera()
     else:
         smallMessage(hostPlayer, "   Checkpoint Selection Disabled")
@@ -39,11 +39,15 @@ rule "Editor | Export Data":
 	@Condition eventPlayer.isHoldingButton(Button.ULTIMATE)
 	
     wait(0.5, Wait.ABORT_WHEN_FALSE)
+    enableInspector()
+	smallMessage(hostPlayer, "   Map Data Exporting...")
+	playEffect(hostPlayer, DynamicEffect.BUFF_IMPACT_SOUND, Color.WHITE, hostPlayer.getPosition(), 100)
+	wait(1)
     LeaderboardText = null
     LeaderboardEntries = null
     LeaderboardRemake = null
     ColorConfig = null
-    enableInspector()
+	wait(2)
     disableInspector()
     smallMessage(hostPlayer, "   Map Data Exported - Check Inspector")
 	playEffect(hostPlayer, DynamicEffect.BUFF_IMPACT_SOUND, Color.WHITE, hostPlayer.getPosition(), 100)
@@ -58,8 +62,11 @@ rule "Editor | Select Checkpoint & Mode":
 	@Condition not eventPlayer.ActivelyEditing
     @Condition (eventPlayer.getThrottle().z > 0.5 or eventPlayer.getThrottle().z < -0.5 or 
             	eventPlayer.getThrottle().x > 0.5 or eventPlayer.getThrottle().x < -0.5)
+	
+	if eventPlayer.EditMeleeButtonPressed:
+		return
 
-	playEffect(eventPlayer, DynamicEffect.BUFF_EXPLOSION_SOUND, Color.WHITE, eventPlayer, 100)
+	playEffect(eventPlayer, DynamicEffect.BUFF_EXPLOSION_SOUND, Color.WHITE, Checkpoints[hostPlayer.CurrentCheckpointIdx], 100)
 
     if eventPlayer.getThrottle().z > 0.5:
         eventPlayer.CurrentCheckpointIdx += 1
@@ -140,7 +147,7 @@ rule "Editor | Remove Checkpoint":
 	if len(Checkpoints) == 0:
 		eventPlayer.CurrentEditorMode = EEditorMode.OFF
         smallMessage(hostPlayer, "   Checkpoint Selection Disabled")
-		playEffect(hostPlayer, DynamicEffect.RING_EXPLOSION_SOUND, Color.WHITE, hostPlayer.getPosition(), 100)
+		playEffect(hostPlayer, DynamicEffect.RING_EXPLOSION_SOUND, Color.WHITE, Checkpoints[hostPlayer.CurrentCheckpointIdx], 100)
 		eventPlayer.ActivelyEditing = false
         StopEditorCamera()
 		eventPlayer.CurrentCheckpointIdx = 0

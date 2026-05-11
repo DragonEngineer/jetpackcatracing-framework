@@ -16,7 +16,8 @@ rule "Init Global":
 
     wait(ELoadOrder.SETUP)
     
-    Checkpoints = []
+	if Checkpoints == 0:
+    	Checkpoints = []
   
 
 
@@ -37,9 +38,15 @@ rule "Init Player":
 	
 	wait(ELoadOrder.SETUP + 0.1)
 	
-	if not eventPlayer.WsEditorOn:
-        chaseAtRate(eventPlayer.Timer, 0, 1, ChaseRateReeval.NONE)
+	# if not eventPlayer.WsEditorOn:
+	# chaseAtRate(eventPlayer.Timer, 0, 1, ChaseRateReeval.NONE)
     eventPlayer.PersonalBest = null
     waitUntil(getTotalTimeElapsed() > 1, 1) # map variables need to load first
     FullReset()
 
+
+rule "After 3s if the checkpoints are empty then provide a warning":
+	@Condition len(Checkpoints) == 0 
+
+	wait(3, Wait.ABORT_WHEN_FALSE)
+	hudHeader(null if localPlayer == hostPlayer and hostPlayer.WsEditorOn else localPlayer, " {0} Warning: Map has no data ".format(iconString(Icon.WARNING)), HudPosition.TOP, 5, Color.RED, HudReeval.VISIBILITY, SpecVisibility.DEFAULT)

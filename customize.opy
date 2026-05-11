@@ -4,8 +4,10 @@ rule "Customize Credits and Colors Here":
     wait(ELoadOrder.CUSTOMIZE)
 
     # credits
-    CreatorName = "creator name here"
-    MapCode = "map code here"
+	if CreatorName == 0:
+    	CreatorName = "creator name here"
+    if MapCode == 0:
+		MapCode = "map code here"
 
     # ring size
     RingSize = 2.5
