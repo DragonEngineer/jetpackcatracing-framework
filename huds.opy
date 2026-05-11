@@ -120,7 +120,7 @@ rule "Editor HUD":
     )
     hudSubtext(
         hostPlayer,
-        f"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nEnable Editor: Hold {inputBindingString(Button.INTERACT)}" if localPlayer.CurrentEditorMode <= EEditorMode.OFF else f"Disable Editor: Hold {inputBindingString(Button.INTERACT)}",        HudPosition.TOP,
+        f"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nEnable Editor: Press {inputBindingString(Button.INTERACT)}" if localPlayer.CurrentEditorMode <= EEditorMode.OFF else (f"Disable Editor: Press {inputBindingString(Button.INTERACT)}" if not localPlayer.IsMovingCheckpoint else f"Cancel Move: Press {inputBindingString(Button.INTERACT)}" ),        HudPosition.TOP,
         103,
         Color.WHITE, 
         HudReeval.VISIBILITY_STRING_AND_COLOR,

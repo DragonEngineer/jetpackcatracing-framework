@@ -4,11 +4,11 @@ X loading without map data can result in a crash loop in maps like aatlis.
     > When no cp available, reset point should be the first spawn location. (you could grab it after a player spawns)
 X In editor mode, the right-side hud says "hold 0" on both editor mode and export data
 - The inspector is turned on/off in the same server tick. in gpk it was multiple seconds. it needs time to update fully. im not sure how much tho.
-- I see what button to save changes for move cp, but not what to press to cancel
+X I see what button to save changes for move cp, but not what to press to cancel
     - if its missing, then it should be added before release.
 X Bug: go in editor mode > move checkpoint > isntead of save, turn of editor mode > ring bugs out and moves with you and half moves the checkpoint when playing
 - We need to add basic export instructions for how to paste and what to do with it.
-- the editor bugs out if you delete checkpoint 0, can't even insert new ones
+X the editor bugs out if you delete checkpoint 0, can't even insert new ones
 - Placing first cp it says inserted, then goes into move mode, but the move mode moves the first cp not the start position.
 
 
